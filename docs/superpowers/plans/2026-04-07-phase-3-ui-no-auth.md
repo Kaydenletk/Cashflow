@@ -1014,14 +1014,17 @@ export async function saveVerdict(input: {
 }): Promise<void> {
   const key = todayKey();
   const perceptionGap = input.guess !== input.actual;
+  // Read existing doc first so we don't bump createdAt on a re-save.
+  const ref = doc(db, 'users', PERSONAL_USER_ID, 'verdicts', key);
+  const existing = await getDoc(ref);
   await setDoc(
-    doc(db, 'users', PERSONAL_USER_ID, 'verdicts', key),
+    ref,
     {
       date: key,
       guess: input.guess,
       actual: input.actual,
       perceptionGap,
-      createdAt: serverTimestamp(),
+      ...(existing.exists() ? {} : { createdAt: serverTimestamp() }),
     },
     { merge: true },
   );
@@ -1162,8 +1165,8 @@ export async function saveCouncil(commitment: string): Promise<void> {
   );
 }
 
-export async function markFollowedThru(weekKey: string, followed: boolean): Promise<void> {
-  await updateDoc(doc(db, 'users', PERSONAL_USER_ID, 'councils', weekKey), {
+export async function markFollowedThru(key: string, followed: boolean): Promise<void> {
+  await updateDoc(doc(db, 'users', PERSONAL_USER_ID, 'councils', key), {
     followedThru: followed,
   });
 }
@@ -2139,15 +2142,18 @@ export function DailyVerdictModal({ open }: Props) {
     // Open prop is controlled by the gate; the gate closes once verdict exists.
   }
 
+  // Mechanism 2: non-dismissable. We pass a NO-OP onOpenChange so any attempt
+  // by the underlying base-ui Dialog to close (Escape, backdrop click, etc.)
+  // is ignored — the parent `open` prop never changes in response to user
+  // dismiss gestures. The only way this dialog closes is when DailyVerdictGate
+  // unmounts it after today's verdict is saved.
+  //
+  // Do NOT add onPointerDownOutside / onEscapeKeyDown / onInteractOutside
+  // handlers: those are Radix-idiom props and are silently ignored by
+  // base-ui's DialogContent, which would leave the modal dismissable.
   return (
-    <Dialog open={open}>
-      <DialogContent
-        className="max-w-md"
-        // Block ALL dismiss vectors per spec §8.4
-        onPointerDownOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(e) => e.preventDefault()}
-        onInteractOutside={(e) => e.preventDefault()}
-      >
+    <Dialog open={open} onOpenChange={() => {}}>
+      <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Were you richer or poorer today?</DialogTitle>
           <DialogDescription>

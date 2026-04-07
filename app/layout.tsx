@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cashflow",
-  description: "A behavioral finance journal for building cashflow mindset.",
+  title: "compound",
+  description: "Financial time machine — see how today's habits shape your retirement date.",
 };
 
 export default function RootLayout({

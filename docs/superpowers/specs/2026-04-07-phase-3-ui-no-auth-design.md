@@ -33,6 +33,7 @@ Explicitly NOT in this slice (anything here is out of scope and must NOT be adde
 - Settings, theme switcher, dark mode toggle, internationalization
 - Multi-device sync conflict handling (single user, single device assumption)
 - Tests beyond the existing classifier suite (per CLAUDE_CODE_PLAN.md rule "Test the classification engine. Skip tests elsewhere.")
+- The "Add to portfolio?" toggle inside the Add Transaction modal that CLAUDE_CODE_PLAN.md §4 Phase 3 mentions. This spec deliberately separates investment creation: investments are added from `/portfolio` via `<AddInvestmentModal />`, which auto-creates the linked ASSET transaction. Reason: keeps the Add Transaction modal focused on the daily-journal flow and avoids a conditional sub-form. If this turns out to feel wrong while dogfooding, revisit in a follow-up slice.
 
 ## 3. Constraints (locked in by CLAUDE_CODE_PLAN.md)
 
@@ -269,9 +270,9 @@ Fields, in order:
 2. Merchant (text input, required)
 3. Date (date picker, defaults to today)
 4. **Live classification preview** — runs `classify({ merchant })` on debounced merchant input, shows `<BucketBadge bucket={result.bucket} confidence={result.confidence} />` below the merchant field
-5. **4 colored override buttons** (ASSET green / LIABILITY red / EXPENSE yellow / INCOME blue) — clicking sets `userOverridden: true` and `classifiedBy: 'USER'`
+5. **4 colored override buttons** (ASSET green / LIABILITY red / EXPENSE yellow / INCOME blue) — clicking sets `userOverridden: true` and `classifiedBy: 'USER'`. **When the user does NOT override**, the saved doc carries the classifier result's `classifiedBy` value verbatim (`'RULE'`, `'CATEGORY'`, or `'AI'` in Phase 4) and `userOverridden: false`.
 6. **Liability reason field** — appears ONLY when bucket is LIABILITY (auto or override). Required, ≥ 10 chars. Save button stays disabled until satisfied. Placeholder: *"Why did you spend this? Be honest with future-you."*
-7. Mood emoji selector (optional, 3 buttons: 😊 / 😐 / 😞)
+7. Mood emoji selector (optional, 3 buttons mapped to the `Mood` enum in `lib/types/transaction.ts`): 😊 → `HAPPY`, 😐 → `NEUTRAL`, 😞 → `REGRET`
 8. Note (optional textarea, 1-line collapsed by default)
 
 Save button calls `addTransaction({...})`. On success: close modal, optimistic UI handled by `onSnapshot` re-emitting (no manual cache invalidation).
@@ -382,7 +383,7 @@ lib/
 ├── classification/                  (existing, unchanged)
 ├── types/transaction.ts             (existing, unchanged)
 ├── insights/                        (existing, unused this slice)
-└── portfolio/                       (existing folder, may merge into lib/calculations/portfolio.ts)
+└── portfolio/                       (DELETE: empty stub from scaffold; functionality lives in lib/calculations/portfolio.ts)
 
 firestore.rules                      (UPDATE: dev-only rules with warning comment)
 BACKLOG.md                           (NEW: deferred-feature log, seeded with CSV import)
@@ -413,7 +414,7 @@ The data shape, hook contracts, and component code do not change.
 
 ## 12. Definition of done
 
-- [ ] All 4 routes render against real Firestore data
+- [ ] All 5 routes render against real Firestore data (`/`, `/today`, `/curve`, `/portfolio`, `/council`)
 - [ ] Add Transaction modal works end-to-end including liability friction
 - [ ] Daily Verdict modal triggers at 9pm and writes a `DailyVerdictDoc`
 - [ ] Weekly Council saves a commitment and the next-week follow-through gate works

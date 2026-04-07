@@ -1,31 +1,33 @@
 import type { Metadata } from "next";
-import { DM_Sans, Space_Grotesk } from "next/font/google";
-
-import { Providers } from "@/components/providers";
-
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const bodyFont = DM_Sans({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  variable: "--font-body"
 });
 
-const headingFont = Space_Grotesk({
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  variable: "--font-heading"
 });
 
 export const metadata: Metadata = {
-  title: "FinBoard AI",
-  description: "A clean financial board for scanner, swing predictions, and market chat."
+  title: "Cashflow",
+  description: "A behavioral finance journal for building cashflow mindset.",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <body className={`${bodyFont.variable} ${headingFont.variable}`}>
-        <Providers>{children}</Providers>
-      </body>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

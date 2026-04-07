@@ -1,7 +1,7 @@
-import { DashboardApp } from "@/components/dashboard-app";
-
-export default async function Page() {
-  const defaultSymbol = process.env.NEXT_PUBLIC_DEFAULT_SYMBOL ?? "NQ=F";
-
-  return <DashboardApp defaultSymbol={defaultSymbol} />;
+export default function Home() {
+  return (
+    <main className="flex min-h-screen items-center justify-center">
+      <h1 className="text-3xl font-semibold tracking-tight">Cashflow</h1>
+    </main>
+  );
 }

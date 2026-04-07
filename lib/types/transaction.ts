@@ -50,6 +50,40 @@ export const Verdict = {
 } as const;
 export type Verdict = (typeof Verdict)[keyof typeof Verdict];
 
+// ── Compound MVP (CSV import) enums ───────────────────────────────────────────
+
+export const SourceBank = {
+  CHASE: 'CHASE',
+  BOA: 'BOA',
+  WELLS_FARGO: 'WELLS_FARGO',
+  OTHER: 'OTHER',
+} as const;
+export type SourceBank = (typeof SourceBank)[keyof typeof SourceBank];
+
+export const EmotionTag = {
+  ESSENTIAL: 'ESSENTIAL',
+  COMFORT: 'COMFORT',
+  IMPULSE: 'IMPULSE',
+  GROWTH: 'GROWTH',
+} as const;
+export type EmotionTag = (typeof EmotionTag)[keyof typeof EmotionTag];
+
+export const InsightType = {
+  PATTERN: 'PATTERN',
+  LEAK: 'LEAK',
+  WIN: 'WIN',
+  HABIT: 'HABIT',
+  PROJECTION: 'PROJECTION',
+} as const;
+export type InsightType = (typeof InsightType)[keyof typeof InsightType];
+
+export const InsightSeverity = {
+  INFO: 'INFO',
+  WARNING: 'WARNING',
+  CRITICAL: 'CRITICAL',
+} as const;
+export type InsightSeverity = (typeof InsightSeverity)[keyof typeof InsightSeverity];
+
 // ── Firestore document interfaces ─────────────────────────────────────────────
 //
 // Firestore path layout:
@@ -87,6 +121,64 @@ export interface TransactionDoc {
   createdAt: Date;
   /** Doc ID of the linked Investment sub-collection doc, if any */
   investmentId?: string;
+
+  // ── Compound MVP (CSV import) fields ─────────────────────────────────────
+  //
+  // Populated by the CSV import pipeline. Manual-entry transactions (legacy)
+  // leave these undefined. A transaction is "CSV-sourced" iff sourceFile is set.
+
+  /** AI-normalized merchant (e.g. "DOORDASH*MCD" → "DoorDash"). */
+  merchantClean?: string;
+  /** Fine-grained sub-category (e.g. "food_delivery", "etf_purchase", "rent"). */
+  subcategory?: string;
+  /** Emotional framing: essential need vs comfort vs impulse vs growth. */
+  emotionTag?: EmotionTag;
+  /** Original CSV filename, for traceability during dogfood. */
+  sourceFile?: string;
+  /** Which bank's CSV format this row came from. */
+  sourceBank?: SourceBank;
+  /** Content-hash of (date + amount + merchant) for idempotent re-imports. */
+  dedupeHash?: string;
+}
+
+export interface InsightDoc {
+  /** Generation timestamp. */
+  generatedAt: Date;
+  type: InsightType;
+  /** Short headline, e.g. "Every Friday night is 2.3× normal". */
+  title: string;
+  /** Concrete number or merchant name, e.g. "$87 avg". */
+  value: string;
+  /** Full emotional sentence — the "narrative" coach voice. */
+  narrative: string;
+  severity: InsightSeverity;
+  /** How many years of early retirement this pattern costs (or gains). null if N/A. */
+  retirementImpactYears?: number;
+  /** Optional next-step suggestion, e.g. "Try capping Friday delivery at $30". */
+  actionHint?: string;
+  /** Merchants this insight references, for cross-linking. */
+  relatedMerchants: string[];
+}
+
+export interface ProfileDoc {
+  /** User-provided current age (one of the few manual inputs). */
+  currentAge: number;
+  /** Starting net worth at beginning of imported CSV window. User-editable. */
+  startingNetWorth: number;
+  /** Derived: cumulative delta over imported period + startingNetWorth. */
+  currentNetWorth: number;
+  /** Derived: annualized from INCOME bucket transactions over the import window. */
+  annualIncomeEstimate: number;
+  /** Derived: annualized from EXPENSE + LIABILITY bucket transactions. */
+  annualSpendEstimate: number;
+  /** Derived: (income - spend) / income. */
+  savingsRatePercent: number;
+  /** 25 × annualSpendEstimate. The FIRE number. */
+  fireTarget: number;
+  /** Age at which FIRE target is reached given current pace. */
+  fireAgeProjection: number;
+  /** When the last CSV import completed. */
+  lastCsvImport?: Date;
 }
 
 export interface InvestmentDoc {

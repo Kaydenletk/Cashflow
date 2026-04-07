@@ -4,7 +4,13 @@
  * Firestore CRUD wrapper for transactions. Validates with Zod, runs
  * classification, writes via the Web SDK, exposes onSnapshot subscriptions.
  *
- * Path: users/{PERSONAL_USER_ID}/transactions/{auto-id}
+ * Path: users/{userId}/transactions/{auto-id}
+ *
+ * Every function takes `userId` as its first argument. Callers get it from
+ * useAuth().user?.uid on the client, or — for API routes that touch
+ * Firestore — from a verified ID token (Phase D+). During Phase C all
+ * writes happen client-side behind Firestore rules, so server-side auth
+ * verification is deferred.
  */
 
 import {
@@ -22,7 +28,6 @@ import {
 import { z } from 'zod';
 
 import { db } from '@/lib/firebase/client';
-import { PERSONAL_USER_ID } from '@/lib/config';
 import { classify } from '@/lib/classification/classifier';
 import {
   Bucket,
@@ -73,10 +78,15 @@ export interface TransactionWithId extends TransactionDoc {
 // ── Writes ──────────────────────────────────────────────────────────────────
 
 /**
- * Add a transaction. Runs classification, applies user override if present,
- * writes to users/{PERSONAL_USER_ID}/transactions.
+ * Add a single transaction (manual-entry path). Runs classification, applies
+ * user override if present, writes to users/{userId}/transactions.
+ *
+ * For batch imports from PDF, use addTransactionsBatch() (added in Task 6).
  */
-export async function addTransaction(input: TransactionInput): Promise<string> {
+export async function addTransaction(
+  userId: string,
+  input: TransactionInput,
+): Promise<string> {
   const parsed = transactionInputSchema.parse(input);
   const result = classify({ merchant: parsed.merchant, category: parsed.category });
 
@@ -102,7 +112,7 @@ export async function addTransaction(input: TransactionInput): Promise<string> {
   if (parsed.investmentId) docPayload.investmentId = parsed.investmentId;
 
   // Firestore needs Timestamp objects for date fields.
-  const ref = await addDoc(collection(db, 'users', PERSONAL_USER_ID, 'transactions'), {
+  const ref = await addDoc(collection(db, 'users', userId, 'transactions'), {
     ...docPayload,
     date: Timestamp.fromDate(parsed.date),
   });
@@ -114,8 +124,12 @@ export async function addTransaction(input: TransactionInput): Promise<string> {
  * action on a TransactionRow — out of scope this slice but the function is
  * kept tiny so a future task can wire it up without changing the data layer).
  */
-export async function updateTransactionBucket(id: string, bucket: Bucket): Promise<void> {
-  await updateDoc(doc(db, 'users', PERSONAL_USER_ID, 'transactions', id), {
+export async function updateTransactionBucket(
+  userId: string,
+  id: string,
+  bucket: Bucket,
+): Promise<void> {
+  await updateDoc(doc(db, 'users', userId, 'transactions', id), {
     bucket,
     classifiedBy: ClassifiedBy.USER,
     userOverridden: true,
@@ -125,15 +139,19 @@ export async function updateTransactionBucket(id: string, bucket: Bucket): Promi
 // ── Subscriptions ───────────────────────────────────────────────────────────
 
 /**
- * Subscribe to ALL transactions for the personal user, ordered by date desc.
+ * Subscribe to ALL transactions for a given user, ordered by date desc.
  * Consumers (hooks) filter to current month / today / week as needed.
+ *
+ * IMPORTANT: callers must pass a valid userId. If the user is not yet
+ * authenticated, DO NOT call this — gate the subscription in the hook.
  */
 export function subscribeToTransactions(
+  userId: string,
   onChange: (txns: TransactionWithId[]) => void,
   onError?: (err: Error) => void,
 ): Unsubscribe {
   const q = query(
-    collection(db, 'users', PERSONAL_USER_ID, 'transactions'),
+    collection(db, 'users', userId, 'transactions'),
     orderBy('date', 'desc'),
   );
   return onSnapshot(

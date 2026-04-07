@@ -1,0 +1,45 @@
+{
+  "_comment": "Hand-authored oracle for boa-2026-01.txt. Counts verified against statement totals. Update alongside the fixture if scrub rules change.",
+  "bank": "BOA",
+  "sourceFile": "eStmt_2026-01-26.pdf",
+  "accountHolder": "TEST USER",
+  "accountNumberMasked": "****6098",
+  "periodStart": "2025-12-25",
+  "periodEnd": "2026-01-26",
+  "transactionCount": 40,
+  "sectionCounts": {
+    "deposits": 12,
+    "cardSubtractions": 4,
+    "otherSubtractions": 24
+  },
+  "expectedChecksums": {
+    "deposits": 15154.31,
+    "cardSubtractions": -98.25,
+    "otherSubtractions": -10425.18
+  },
+  "firstTransaction": {
+    "merchantRaw": "BKOFAMERICA MOBILE 12/30 3662672195 DEPOSIT *MOBILE FL",
+    "amount": 2792.00,
+    "date": "2025-12-30",
+    "section": "deposits"
+  },
+  "lastTransaction": {
+    "merchantRaw": "ANYTIME FIT ABC DES:CLUB FEES ID:2602300299001 INDN:TEST USER CO ID:1710602737 PPD PMT INFO: - ANYTIME FITNESS XXX-XXX-XXXX",
+    "amount": -16.11,
+    "date": "2026-01-26",
+    "section": "other_subtractions"
+  },
+  "yearBoundaryCheck": {
+    "_comment": "Jan statement spans Dec 2025 → Jan 2026. Parser must assign the right year to each row. Dec rows: 1 deposit (12/30), 1 card subtraction (12/31), 3 other subtractions (12/29, 12/30, 12/31).",
+    "december2025Rows": 5,
+    "january2026Rows": 35
+  },
+  "multiLineRowCheck": {
+    "_comment": "Rows where merchantRaw + amount span 2+ lines in the PDF. Parser's state machine must join them.",
+    "examples": [
+      "U of South FL DES:EDEPOSIT (amount on line 3 alone)",
+      "APPLECARD GSBANK DES:PAYMENT ... WEB (amount on following line)",
+      "SCHWAB BROKERAGE DES:MONEYLINK ... PPD (amount on following line)"
+    ]
+  }
+}

@@ -67,9 +67,12 @@ describe('detectBank', () => {
   });
 });
 
-describe('stub parsers throw ParserError on parse()', () => {
-  it('BoA parse() throws with a "under construction" message for Task 3', () => {
-    expect(() => boaParser.parse('', 'test.pdf')).toThrow(/under construction/i);
+describe('parse() error paths', () => {
+  it('BoA parse() throws ParserError on empty input', () => {
+    // Task 4 implemented the real parser; empty/invalid input now throws
+    // with a different (still meaningful) message. Dedicated BoA error
+    // coverage lives in boa-parser.test.ts.
+    expect(() => boaParser.parse('', 'test.pdf')).toThrow(/empty|period|section/i);
   });
 
   it('Chase parse() throws with a "not yet implemented" message', () => {

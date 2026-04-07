@@ -1,0 +1,227 @@
+Customer service information
+Customer service: 1.XXX-XXX-XXXX
+En Español: 1.XXX-XXX-XXXX
+bankofamerica.com
+Bank of America, N.A.
+P.O. Box 25118
+TESTCITY, XX 00000
+TEST USER
+123 TEST ST
+TESTCITY, XX 00000
+P.O. Box 15284
+Wilmington, DE 19850
+PULL: B 	CYCLE: 16 	SPEC: E 	DELIVERY: E 	TYPE: 	IMAGE: I 	BC: JAX 	Page 1 of 8
+Your Adv Plus Banking
+for December 25, 2025 to January 26, 2026 	Account number: **** **** 6098
+TEST USER
+Account summary
+Beginning balance on December 25, 2025 	$307.63
+Deposits and other additions 	15,154.31
+ATM and debit card subtractions 	-98.25
+Other subtractions 	-10,425.18
+Checks 	-0.00
+Service fees 	-0.00
+Ending balance on January 26, 2026 	$4,938.51
+SHOP. View inventory of over 1 million vehicles.
+APPLY. Get a decision for the vehicle you choose 	it is quick and easy.
+DRIVE. Finalize the paperwork at the dealer.
+Start your next car search with us, online and on your own time.
+Scan this code and start shopping or visit bankofamerica.com/carshopping
+When you use the QRC feature, certain information is collected from your mobile device for business purposes.
+Vehicle financing provided by Bank of America. Credit and collateral are subject to approval. Terms and conditions apply.
+Automobile shopping content provided by automobile dealerships through a website provided by a third party not affiliated
+with Bank of America. Bank of America is not responsible for any automobile content, products or services.
+Bank of America N.A. Member FDIC. © 2025 Bank of America Corporation.
+
+-- 1 of 8 --
+
+TEST USER 	! 	Account# **** **** 6098 	! 	December 25, 2025 to January 26, 2026
+Page 2 of 8
+IMPORTANT INFORMATION:
+BANK DEPOSIT ACCOUNTS
+How to Contact Us - You may call us at the telephone number listed on the front of this statement.
+Updating your contact information - We encourage you to keep your contact information up-to-date. This includes address,
+email and phone number. If your information has changed, the easiest way to update it is by visiting the Help & Support tab of
+Online Banking.
+Deposit agreement - When you opened your account, you received a deposit agreement and fee schedule and agreed that your
+account would be governed by the terms of these documents, as we may amend them from time to time. These documents are
+part of the contract for your deposit account and govern all transactions relating to your account, including all deposits and
+withdrawals. Copies of both the deposit agreement and fee schedule which contain the current version of the terms and
+conditions of your account relationship may be obtained at our financial centers.
+Electronic transfers: In case of errors or questions about your electronic transfers - If you think your statement or receipt is
+wrong or you need more information about an electronic transfer (e.g., ATM transactions, direct deposits or withdrawals,
+point-of-sale transactions) on the statement or receipt, telephone or write us at the address and number listed on the front of
+this statement as soon as you can. We must hear from you no later than 60 days after we sent you the FIRST statement on
+which the error or problem appeared.
+- 	Tell us your name and account number.
+- 	Describe the error or transfer you are unsure about, and explain as clearly as you can why you believe there is an error
+or why you need more information.
+- 	Tell us the dollar amount of the suspected error.
+For consumer accounts used primarily for personal, family or household purposes, we will investigate your complaint and will
+correct any error promptly. If we take more than 10 business days (10 calendar days if you are a Massachusetts customer) (20
+business days if you are a new customer, for electronic transfers occurring during the first 30 days after the first deposit is
+made to your account) to do this, we will provisionally credit your account for the amount you think is in error, so that you will
+have use of the money during the time it will take to complete our investigation.
+For other accounts, we investigate, and if we find we have made an error, we credit your account at the conclusion of our
+investigation.
+Reporting other problems - You must examine your statement carefully and promptly. You are in the best position to discover
+errors and unauthorized transactions on your account. If you fail to notify us in writing of suspected problems or an
+unauthorized transaction within the time period specified in the deposit agreement (which periods are no more than 60 days
+after we make the statement available to you and in some cases are 30 days or less), we are not liable to you and you agree to
+not make a claim against us, for the problems or unauthorized transactions.
+Direct deposits - If you have arranged to have direct deposits made to your account at least once every 60 days from the same
+person or company, you may call us to find out if the deposit was made as scheduled. You may also review your activity online
+or visit a financial center for information.
+© 2026 Bank of America Corporation
+
+-- 2 of 8 --
+
+TEST USER 	! 	Account# **** **** 6098 	! 	December 25, 2025 to January 26, 2026
+Page 3 of 8
+Deposits and other additions
+Date 	Description 	Amount
+12/30/25 	BKOFAMERICA MOBILE 12/30 3662672195 DEPOSIT 	*MOBILE 	FL 	2,792.00
+01/02/26 	Zelle payment from PERSON A Conf# x4wjqr2sv 	50.00
+01/05/26 	Zelle payment from PERSON A for "MEMO"; Conf# tidqbc0k5 	1,319.00
+01/12/26 	BKOFAMERICA MOBILE 01/12 3837246393 DEPOSIT 	*MOBILE 	FL 	777.93
+01/12/26 	BKOFAMERICA MOBILE 01/12 3666529619 DEPOSIT 	*MOBILE 	FL 	152.25
+01/13/26 	ROBINHOOD 	DES:Funds 	ID:XXXXXXXXX INDN:TEST USER 	CO ID:1464364776 PPD 	100.00
+01/14/26 	BKOFAMERICA MOBILE 01/14 3694406443 DEPOSIT 	*MOBILE 	FL 	3,122.00
+01/14/26 	BKOFAMERICA ATM 01/14 #000001420 DEPOSIT HANLEY ROAD 	TAMPA 	FL 	1,300.00
+01/16/26 	Zelle payment from PERSON A Conf# sg8qhbjk5 	830.00
+01/20/26 	APPLE CASH 	DES:BANK XFER ID:TEST USER INDN:TEST USER 	CO ID:6192912998 WEB 	53.60
+01/21/26 	U of South FL 	DES:EDEPOSIT 	ID: 	U28888200 INDN:USF893786 Le 	CO
+ID:1593102112 PPD
+4,282.53
+01/26/26 	BOFA FIN CTR 	01/26 #000007359 DEPOSIT 8320 Hanley Rd 	Tampa 	FL 	375.00
+Total deposits and other additions 	$15,154.31
+Withdrawals and other subtractions
+ATM and debit card subtractions
+Date 	Description 	Amount
+12/31/25 	PMNT SENT 1231 Sendwave 8449335122 	MA 	-54.10
+01/02/26 	PMNT SENT 0101 Sendwave 8449335122 	MA *********************** 	-7.73
+01/20/26 	CHECKCARD 0119 COSTCO GAS #12 TAMPA 	FL 	-17.07
+01/26/26 	PMNT SENT 0125 Sendwave 8449335122 	MA 	-19.35
+Total ATM and debit card subtractions 	-$98.25
+continued on the next page
+NEW: BankAmeriDeals® is better than ever.
+Find more cash back deals from thousands of top brands. Check it out today!
+Explore your deals at bankofamerica.com/deals.
+When you use the QRC feature, certain information is collected from your mobile device for business purposes. You must
+be enrolled in Online Banking or Mobile Banking to participate in the BankAmeriDeals® program and have either an eligible
+Bank of America® debit or credit card or Merrill credit card. Earned cash back will be credited into an eligible consumer
+deposit or credit account within 30 days following redemption. Data connection required. Wireless carrier fees may apply.
+For SafeBalance Banking® for Family Banking accounts, the parent owner can participate in BankAmeriDeals but their child
+using the account cannot. Mobile Banking requires that you download the Mobile Banking app and may not be available for
+select mobile devices. Message and data rates may apply.
+
+-- 3 of 8 --
+
+TEST USER 	! 	Account# **** **** 6098 	! 	December 25, 2025 to January 26, 2026
+Page 4 of 8
+Withdrawals and other subtractions - continued
+Other subtractions
+Date 	Description 	Amount
+12/29/25 	ANYTIME FIT ABC DES:CLUB FEES ID:2536000284408 INDN:TEST USER 	CO
+ID:1710602737 PPD PMT INFO: - ANYTIME FITNESS 	XXX-XXX-XXXX
+-16.11
+12/30/25 	Mobile Banking payment to CRD 9617 Confirmation# ppj8850ym 	-8.85
+12/31/25 	SCHWAB BROKERAGE DES:MONEYLINK ID:*************** INDN:TEST USER 	CO
+ID:9005586224 PPD
+-200.00
+01/02/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-1,138.43
+01/02/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-1,000.00
+01/02/26 	SCHWAB BROKERAGE DES:MONEYLINK ID:*************** INDN:TEST USER 	CO
+ID:9005586224 WEB
+-300.00
+01/02/26 	SCHWAB BROKERAGE DES:MONEYLINK ID:*************** INDN:TEST USER 	CO
+ID:9005586224 PPD
+-150.00
+01/05/26 	Mobile Banking payment to CRD 1873 Confirmation# 18eq5tr1j 	-124.99
+01/05/26 	ROBINHOOD 	DES:Funds 	ID:XXXXXXXXX INDN:TEST USER 	CO ID:1464364776 WEB 	-100.00
+01/06/26 	Mobile Banking payment to CRD 9617 Confirmation# 1eo58chhj 	-129.98
+01/12/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-1,000.00
+01/12/26 	SCHWAB BROKERAGE DES:MONEYLINK ID:*************** INDN:TEST USER 	CO
+ID:9005586224 PPD
+-300.00
+01/12/26 	ANYTIME FIT ABC DES:CLUB FEES ID:2600900250934 INDN:TEST USER 	CO
+ID:1710602737 PPD PMT INFO: - ANYTIME FITNESS 	XXX-XXX-XXXX
+-16.11
+01/14/26 	Zelle payment to PERSON X for "MEMO"; Conf# z7fh2e58d 	-100.00
+01/14/26 	Zelle payment to PERSON X Conf# tzjf97rxq 	-950.00
+01/14/26 	PAYPAL 	DES:INST XFER ID:HUONGDAOVIP INDN:TEST USER 	CO
+ID:PAYPALSI77 WEB
+-31.11
+01/15/26 	Zelle payment to HAIR & NAIL WORLD LLC Conf# z6k2pu165 	-30.00
+01/16/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-2,000.00
+01/20/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-830.00
+01/20/26 	PAYPAL 	DES:INST XFER ID:GOOGLE YOUTUBE INDN:TEST USER 	CO
+ID:PAYPALSI77 WEB
+-15.87
+01/22/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-1,000.00
+01/26/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-900.00
+continued on the next page
+
+-- 4 of 8 --
+
+TEST USER 	! 	Account# **** **** 6098 	! 	December 25, 2025 to January 26, 2026
+Page 5 of 8
+Withdrawals and other subtractions - continued
+Other subtractions - continued
+Date 	Description 	Amount
+01/26/26 	Ambetter 	DES:HEALTH INS ID:*************** INDN:TEST USER 	CO
+ID:AXXXXXXXXX WEB
+-67.62
+01/26/26 	ANYTIME FIT ABC DES:CLUB FEES ID:2602300299001 INDN:TEST USER 	CO
+ID:1710602737 PPD PMT INFO: - ANYTIME FITNESS 	XXX-XXX-XXXX
+-16.11
+Total other subtractions 	-$10,425.18
+Service fees
+Your Overdraft and NSF: Returned Item fees for this statement period and year to date are shown below.
+Total for this period 	Total year-to-date
+Total Overdraft fees 	$0.00 	$30.00
+Total NSF: Returned Item fees 	$0.00 	$0.00
+We want to help you avoid overdraft fees. Here are a few ways to manage your account and stay on top of your balance:
+- 	Enroll in Balance Connect™ for overdraft protection through Online or Mobile Banking to help save on overdraft fees and cover
+your payments and purchases by automatically transferring money from your linked backup accounts when needed.
+- 	Sign up for Alerts (footnote 1) to get an email or text message when your balance becomes low
+Please call us or visit us if you have any questions or to discuss your options.
+(footnote 1) You may elect to receive alerts via text or email. Bank of America does not charge for this service but your mobile carrier's
+message and data rates may apply. Delivery of alerts may be affected or delayed by your mobile carrier's coverage.
+Braille and Large Print Request - You can request a copy of this statement in Braille or Large Print by calling XXX-XXX-XXXX or going to
+bankofamerica.com and enter Visually Impaired Access from the home page.
+
+-- 5 of 8 --
+
+This page intentionally left blank
+TEST USER 	! 	Account# **** **** 6098 	! 	December 25, 2025 to January 26, 2026
+Page 6 of 8
+
+-- 6 of 8 --
+
+Page 7 of 8
+This page intentionally left blank
+TEST USER 	! 	Account# **** **** 6098 	! 	December 25, 2025 to January 26, 2026
+
+-- 7 of 8 --
+
+This page intentionally left blank
+TEST USER 	! 	Account# **** **** 6098 	! 	December 25, 2025 to January 26, 2026
+Page 8 of 8
+
+-- 8 of 8 --
+

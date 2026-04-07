@@ -1,0 +1,206 @@
+Customer service information
+Customer service: 1.XXX-XXX-XXXX
+En Español: 1.XXX-XXX-XXXX
+bankofamerica.com
+Bank of America, N.A.
+P.O. Box 25118
+TESTCITY, XX 00000
+TEST USER
+123 TEST ST
+TESTCITY, XX 00000
+P.O. Box 15284
+Wilmington, DE 19850
+PULL: B 	CYCLE: 16 	SPEC: E 	DELIVERY: E 	TYPE: 	IMAGE: I 	BC: JAX 	Page 1 of 6
+Your Adv Plus Banking
+for January 27, 2026 to February 23, 2026 	Account number: **** **** 6098
+TEST USER
+Account summary
+Beginning balance on January 27, 2026 	$4,938.51
+Deposits and other additions 	5,204.00
+ATM and debit card subtractions 	-1,292.10
+Other subtractions 	-2,988.86
+Checks 	-0.00
+Service fees 	-0.00
+Ending balance on February 23, 2026 	$5,861.55
+NEW: BankAmeriDeals® is better than ever.
+Find more cash back deals from thousands of top brands. Check it out today!
+Explore your deals at bankofamerica.com/deals.
+When you use the QRC feature, certain information is collected from your mobile device for business purposes. You must
+be enrolled in Online Banking or Mobile Banking to participate in the BankAmeriDeals® program and have either an eligible
+Bank of America® debit or credit card or Merrill credit card. Earned cash back will be credited into an eligible consumer
+deposit or credit account within 30 days following redemption. Data connection required. Wireless carrier fees may apply.
+For SafeBalance Banking® for Family Banking accounts, the parent owner can participate in BankAmeriDeals but their child
+using the account cannot. Mobile Banking requires that you download the Mobile Banking app and may not be available for
+select mobile devices. Message and data rates may apply.
+Please see the 	Important Messages - Please Read 	section of your statement for important details that could impact you.
+
+-- 1 of 6 --
+
+TEST USER 	! 	Account# **** **** 6098 	! 	January 27, 2026 to February 23, 2026
+Page 2 of 6
+IMPORTANT INFORMATION:
+BANK DEPOSIT ACCOUNTS
+How to Contact Us - You may call us at the telephone number listed on the front of this statement.
+Updating your contact information - We encourage you to keep your contact information up-to-date. This includes address,
+email and phone number. If your information has changed, the easiest way to update it is by visiting the Help & Support tab of
+Online Banking.
+Deposit agreement - When you opened your account, you received a deposit agreement and fee schedule and agreed that your
+account would be governed by the terms of these documents, as we may amend them from time to time. These documents are
+part of the contract for your deposit account and govern all transactions relating to your account, including all deposits and
+withdrawals. Copies of both the deposit agreement and fee schedule which contain the current version of the terms and
+conditions of your account relationship may be obtained at our financial centers.
+Electronic transfers: In case of errors or questions about your electronic transfers - If you think your statement or receipt is
+wrong or you need more information about an electronic transfer (e.g., ATM transactions, direct deposits or withdrawals,
+point-of-sale transactions) on the statement or receipt, telephone or write us at the address and number listed on the front of
+this statement as soon as you can. We must hear from you no later than 60 days after we sent you the FIRST statement on
+which the error or problem appeared.
+- 	Tell us your name and account number.
+- 	Describe the error or transfer you are unsure about, and explain as clearly as you can why you believe there is an error
+or why you need more information.
+- 	Tell us the dollar amount of the suspected error.
+For consumer accounts used primarily for personal, family or household purposes, we will investigate your complaint and will
+correct any error promptly. If we take more than 10 business days (10 calendar days if you are a Massachusetts customer) (20
+business days if you are a new customer, for electronic transfers occurring during the first 30 days after the first deposit is
+made to your account) to do this, we will provisionally credit your account for the amount you think is in error, so that you will
+have use of the money during the time it will take to complete our investigation.
+For other accounts, we investigate, and if we find we have made an error, we credit your account at the conclusion of our
+investigation.
+Reporting other problems - You must examine your statement carefully and promptly. You are in the best position to discover
+errors and unauthorized transactions on your account. If you fail to notify us in writing of suspected problems or an
+unauthorized transaction within the time period specified in the deposit agreement (which periods are no more than 60 days
+after we make the statement available to you and in some cases are 30 days or less), we are not liable to you and you agree to
+not make a claim against us, for the problems or unauthorized transactions.
+Direct deposits - If you have arranged to have direct deposits made to your account at least once every 60 days from the same
+person or company, you may call us to find out if the deposit was made as scheduled. You may also review your activity online
+or visit a financial center for information.
+© 2026 Bank of America Corporation
+
+-- 2 of 6 --
+
+TEST USER 	! 	Account# **** **** 6098 	! 	January 27, 2026 to February 23, 2026
+Page 3 of 6
+Deposits and other additions
+Date 	Description 	Amount
+01/27/26 	BKOFAMERICA MOBILE 01/28 3650131678 DEPOSIT 	*MOBILE 	FL 	1,635.00
+02/04/26 	Zelle payment from PERSON A for "MEMO"; Conf# zow0ybmgz 	1,000.00
+02/12/26 	BKOFAMERICA ATM 02/12 #000008037 DEPOSIT HANLEY ROAD 	TAMPA 	FL 	2,520.00
+02/19/26 	Moomoo Financial DES:FutuInc-o2 ID:*************** INDN:TEST USER 	CO
+ID:2371801571 PPD PMT INFO:74768501 withdraw 49
+49.00
+Total deposits and other additions 	$5,204.00
+Withdrawals and other subtractions
+ATM and debit card subtractions
+Date 	Description 	Amount
+02/09/26 	PMNT SENT 0209 Sendwave 8449335122 	MA 	-1,206.07
+02/17/26 	PMNT SENT 0216 Sendwave 8449335122 	MA 	-78.21
+02/23/26 	PMNT SENT 0220 Sendwave 8449335122 	MA 	-7.82
+Total ATM and debit card subtractions 	-$1,292.10
+Other subtractions
+Date 	Description 	Amount
+01/28/26 	Zelle payment to PERSON X Conf# vbqw6j61b 	-1,000.00
+01/28/26 	SCHWAB BROKERAGE DES:MONEYLINK ID:*************** INDN:TEST USER 	CO
+ID:9005586224 WEB
+-250.00
+01/29/26 	Mobile Banking payment to CRD 1873 Confirmation# thh6dzoyw 	-0.97
+02/02/26 	Zelle payment to PERSON B Conf# y5k0wezz8 	-7.00
+02/02/26 	Instant Payment; Moomoo Financial Inc. Payment Request
+*****************P1BRJPM05580023733
+-160.00
+continued on the next page
+Scheduled and recurring payments with Zelle®
+Send money now, schedule it for later, or make it recurring.*
+Enroll now! Scan the code or visit bankofamerica.com/zelle.
+When you use the QRC feature, certain information is collected from your mobile device for business purposes. Mobile Banking
+requires that you download the Mobile Banking app and may not be available for select mobile devices. Message and data
+rates may apply. To send or receive money with Zelle®, both parties must have a Zelle® eligible U.S. checking or savings
+account. Zelle and the Zelle marks used herein are trademarks of Early Warning Services, LLC.
+* This feature is available after 60 days of Zelle enrollment and in some circumstances, the feature may not be available for
+certain recipients.
+
+-- 3 of 6 --
+
+TEST USER 	! 	Account# **** **** 6098 	! 	January 27, 2026 to February 23, 2026
+Page 4 of 6
+Withdrawals and other subtractions - continued
+Other subtractions - continued
+Date 	Description 	Amount
+02/03/26 	SCHWAB BROKERAGE DES:MONEYLINK ID:*************** INDN:TEST USER 	CO
+ID:9005586224 WEB
+-100.00
+02/05/26 	Zelle payment to PERSON B Conf# unjtrt2lu 	-7.00
+02/09/26 	ANYTIME FIT ABC DES:CLUB FEES ID:2603700277257 INDN:TEST USER 	CO
+ID:1710602737 PPD PMT INFO: - ANYTIME FITNESS 	XXX-XXX-XXXX
+-16.11
+02/10/26 	Lake Place I Con DES:OnlinePay ID:12241 INDN:TEST USER 	CO ID:BXXXXXXXXX WEB 	-145.80
+02/10/26 	PAYPAL 	DES:INST XFER ID:STARBUCKS INDN:TEST USER 	CO ID:PAYPALSI77
+WEB
+-25.00
+02/10/26 	ACCT INTEGRATORS DES:Assn Dues ID:12241 INDN:TEST USER 	CO ID:1454214418 WEB 	-2.99
+02/13/26 	Zelle payment to HAIR & NAIL WORLD LLC Conf# wh5yo74ar 	-30.00
+02/13/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-644.53
+02/13/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-205.00
+02/17/26 	Mobile Banking payment to CRD 9617 Confirmation# umcw6emkj 	-70.53
+02/17/26 	APPLECARD GSBANK DES:PAYMENT 	ID:56237657 INDN:TEST USER 	CO ID:9999999999
+WEB
+-185.78
+02/17/26 	Ambetter 	DES:HEALTH INS ID:*************** INDN:TEST USER 	CO
+ID:AXXXXXXXXX WEB
+-33.81
+02/17/26 	Online Scheduled Payment to ACCT# 9617 Confirmation# 2061621686 	-32.27
+02/17/26 	PAYPAL 	DES:INST XFER ID:GOOGLE YOUTUBE INDN:TEST USER 	CO
+ID:PAYPALSI77 WEB
+-15.87
+02/20/26 	PAYPAL 	DES:INST XFER ID:METAPLATFOR INDN:TEST USER 	CO
+ID:PAYPALSI77 WEB
+-0.99
+02/20/26 	PAYPAL 	DES:INST XFER ID:METAPLATFOR INDN:TEST USER 	CO
+ID:PAYPALSI77 WEB
+-0.99
+02/23/26 	Zelle payment to PERSON B Conf# zpjk94czb 	-7.00
+02/23/26 	PAYPAL 	DES:INST XFER ID:HUONGDAOVIP INDN:TEST USER 	CO
+ID:PAYPALSI77 WEB
+-31.11
+02/23/26 	ANYTIME FIT ABC DES:CLUB FEES ID:2605100291341 INDN:TEST USER 	CO
+ID:1710602737 PPD PMT INFO: - ANYTIME FITNESS 	XXX-XXX-XXXX
+-16.11
+Total other subtractions 	-$2,988.86
+Braille and Large Print Request - You can request a copy of this statement in Braille or Large Print by calling XXX-XXX-XXXX or going to
+bankofamerica.com and enter Visually Impaired Access from the home page.
+
+-- 4 of 6 --
+
+Important Messages - Please Read
+We want to make sure you stay up-to-date on changes, reminders, and other important details that
+could impact you.
+Page 5 of 6
+We are changing one of the ways to avoid the monthly maintenance fee on our consumer checking and savings
+accounts. Keep in mind, there are still other ways to avoid the monthly fee that are not changing 	some of which
+you may already be doing.
+As you may already know, Bank of America Preferred Rewards® will become BofA Rewards(TM) on or about May 26, 2026.
+After this happens, being a Preferred Rewards member will no longer be one of the ways to have the monthly fee waived.
+Instead, an account owner will need to be enrolled in BofA Rewards and qualify for the Preferred Plus, Preferred Honors, or
+Premier tier 	this benefit does not apply to the Member tier.
+Do not worry, if you are enrolled in the Preferred Rewards program on or about May 26, 2026, your enrollment will change to
+the new BofA Rewards program tier:
+- Gold and Platinum members change to Preferred Plus
+- Platinum Honors members change to Preferred Honors
+- Diamond Honors members change to Premier
+You will stay enrolled in your BofA Rewards tier for at least a six-month period, even if you do not meet the program
+requirements. After this time, BofA Rewards' standard rules, balance requirements and benefits apply.
+To learn more about BofA Rewards, visit bankofamerica.com/BofARewards. Or visit the Preferred Rewards section of the
+"MEMO" at bankofamerica.com/fees for program eligibility details.
+To see all of the ways to avoid the monthly fee on your account, including those that have not changed, visit
+bankofamerica.com/feesataglance.
+
+-- 5 of 6 --
+
+This page intentionally left blank
+TEST USER 	! 	Account# **** **** 6098 	! 	January 27, 2026 to February 23, 2026
+Page 6 of 6
+
+-- 6 of 6 --
+

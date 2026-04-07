@@ -1,0 +1,43 @@
+{
+  "_comment": "Hand-authored oracle for boa-2026-02.txt. Counts verified against statement totals. Update alongside the fixture if scrub rules change.",
+  "bank": "BOA",
+  "sourceFile": "eStmt_2026-02-23.pdf",
+  "accountHolder": "TEST USER",
+  "accountNumberMasked": "****6098",
+  "periodStart": "2026-01-27",
+  "periodEnd": "2026-02-23",
+  "transactionCount": 31,
+  "sectionCounts": {
+    "deposits": 4,
+    "cardSubtractions": 3,
+    "otherSubtractions": 24
+  },
+  "expectedChecksums": {
+    "deposits": 5204.00,
+    "cardSubtractions": -1292.10,
+    "otherSubtractions": -2988.86
+  },
+  "firstTransaction": {
+    "merchantRaw": "BKOFAMERICA MOBILE 01/28 3650131678 DEPOSIT *MOBILE FL",
+    "amount": 1635.00,
+    "date": "2026-01-27",
+    "section": "deposits"
+  },
+  "lastTransaction": {
+    "merchantRaw": "ANYTIME FIT ABC DES:CLUB FEES ID:2605100291341 INDN:TEST USER CO ID:1710602737 PPD PMT INFO: - ANYTIME FITNESS XXX-XXX-XXXX",
+    "amount": -16.11,
+    "date": "2026-02-23",
+    "section": "other_subtractions"
+  },
+  "sameYearCheck": {
+    "_comment": "Feb statement is entirely within 2026 — no year-boundary edge case.",
+    "allRowsInYear": 2026
+  },
+  "marketingInterspersionCheck": {
+    "_comment": "Feb fixture has marketing content BETWEEN sections (Zelle promo) and AFTER the last section (BofA Rewards disclosure on page 5). Parser must skip both.",
+    "interspersedBlocks": [
+      "Scheduled and recurring payments with Zelle® (between sections)",
+      "BofA Rewards program changes (page 5, after all sections)"
+    ]
+  }
+}

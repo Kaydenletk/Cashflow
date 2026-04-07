@@ -25,13 +25,16 @@ export function useThisWeekCouncil(): UseThisWeekCouncilState {
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const [tw, lw] = await Promise.all([
-      getCouncilByKey(weekKey()),
-      getCouncilByKey(lastWeekKey()),
-    ]);
-    setThisWeek(tw);
-    setLastWeek(lw);
-    setLoading(false);
+    try {
+      const [tw, lw] = await Promise.all([
+        getCouncilByKey(weekKey()),
+        getCouncilByKey(lastWeekKey()),
+      ]);
+      setThisWeek(tw);
+      setLastWeek(lw);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {

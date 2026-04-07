@@ -20,9 +20,12 @@ export function useTodayVerdict(): UseTodayVerdictState {
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const v = await getTodayVerdict();
-    setVerdict(v);
-    setLoading(false);
+    try {
+      const v = await getTodayVerdict();
+      setVerdict(v);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {

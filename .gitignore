@@ -45,3 +45,10 @@ next-env.d.ts
 
 # brainstorming visual companion (local-only)
 .superpowers/
+
+# playwright MCP runtime cache
+.playwright-mcp/
+
+# real bank statements used for parser fixture generation (PII — never commit)
+seeds/*.pdf
+

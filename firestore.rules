@@ -1,24 +1,22 @@
 rules_version = '2';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DEV-ONLY RULES — Phase 3 (no auth)
+// Compound MVP — multi-tenant Firestore rules (Phase C)
 //
-// The app currently runs against a hardcoded PERSONAL_USER_ID = 'personal'.
-// These rules allow open read/write access to users/personal/** ONLY.
-// Everything else stays locked.
+// Every document under users/{userId}/** is readable/writable ONLY by the
+// authenticated user whose uid matches userId. Everything else is locked.
 //
-// ⚠️  MUST be tightened before any deploy: replace with
-//     `allow read, write: if request.auth != null && request.auth.uid == userId;`
-//     once Firebase Auth is wired in Phase 2.
-//
-// See docs/superpowers/specs/2026-04-07-phase-3-ui-no-auth-design.md §4.3
+// Firebase Auth (Google OAuth) is the only supported sign-in method. Clients
+// authenticate via signInWithPopup(GoogleAuthProvider) — see lib/firebase/auth.ts.
 // ─────────────────────────────────────────────────────────────────────────────
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/personal/{document=**} {
-      allow read, write: if true;
+    match /users/{userId}/{document=**} {
+      allow read, write: if request.auth != null
+        && request.auth.uid == userId;
     }
+
     match /{document=**} {
       allow read, write: if false;
     }

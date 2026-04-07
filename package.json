@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:accuracy": "vite-node -c vitest.config.ts scripts/check-accuracy.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

@@ -13,7 +13,7 @@
  * TODO(phase-4): swap fallback block for AI classification call.
  */
 
-import { Bucket, ClassifiedBy, IncomeType } from "@/lib/generated/prisma/enums";
+import { Bucket, ClassifiedBy, IncomeType } from "@/lib/types/transaction";
 import { MERCHANT_RULES } from "./merchant-rules";
 import { CATEGORY_RULES } from "./category-rules";
 

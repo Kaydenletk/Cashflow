@@ -1,4 +1,4 @@
-import { Bucket, IncomeType } from "@/lib/generated/prisma/enums";
+import { Bucket, IncomeType } from "@/lib/types/transaction";
 
 export interface CategoryRule {
   /** Lowercase substring to match against the category string (case-insensitive). */

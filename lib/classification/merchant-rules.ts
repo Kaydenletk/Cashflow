@@ -1,4 +1,4 @@
-import { Bucket, IncomeType } from "@/lib/generated/prisma/enums";
+import { Bucket, IncomeType } from "@/lib/types/transaction";
 
 export interface MerchantRule {
   /** Lowercase substring to match against the merchant string (case-insensitive). */

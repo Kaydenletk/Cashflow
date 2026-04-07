@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { classify } from "./classifier";
-import { Bucket, ClassifiedBy, IncomeType } from "@/lib/generated/prisma/enums";
+import { Bucket, ClassifiedBy, IncomeType } from "@/lib/types/transaction";
 
 describe("classify()", () => {
   // ── Bucket: ASSET ────────────────────────────────────────────────────────

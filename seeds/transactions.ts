@@ -11,7 +11,7 @@
  * Dates are spread across the last 30 days relative to 2026-04-07.
  */
 
-import { Bucket, ClassifiedBy, IncomeType, Mood } from "@/lib/generated/prisma/enums";
+import { Bucket, ClassifiedBy, IncomeType, Mood } from "@/lib/types/transaction";
 
 export interface SeedTransaction {
   amount: number; // stored as Decimal(12,2) in schema; number here for seed convenience

@@ -14,7 +14,7 @@
 import { Bucket, ClassifiedBy, IncomeType, Mood } from "@/lib/types/transaction";
 
 export interface SeedTransaction {
-  amount: number; // stored as Decimal(12,2) in schema; number here for seed convenience
+  amount: number; // dollars with 2 decimal precision (matches TransactionDoc.amount)
   merchant: string;
   category?: string;
   bucket: Bucket;

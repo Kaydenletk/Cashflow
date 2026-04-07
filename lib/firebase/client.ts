@@ -15,6 +15,23 @@ import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 
+// Fail fast on missing config. Firebase does NOT validate config at init time —
+// a missing apiKey/projectId silently produces a broken app that only fails
+// at first read/write with a cryptic network error. Surface the problem here.
+const REQUIRED_ENV_VARS = [
+  'NEXT_PUBLIC_FIREBASE_API_KEY',
+  'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
+] as const;
+
+for (const key of REQUIRED_ENV_VARS) {
+  if (!process.env[key]) {
+    throw new Error(
+      `[firebase/client] Missing required env var: ${key}. ` +
+        `Copy .env.example → .env.local and fill in your Firebase web config.`,
+    );
+  }
+}
+
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,

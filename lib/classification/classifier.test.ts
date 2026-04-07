@@ -252,6 +252,20 @@ describe("classify()", () => {
     expect(result.matchedRule).toBe("fallback-default");
   });
 
+  it("falls back to EXPENSE default for an empty merchant string", () => {
+    const result = classify({ merchant: "" });
+    expect(result.bucket).toBe(Bucket.EXPENSE);
+    expect(result.confidence).toBe(0.3);
+    expect(result.matchedRule).toBe("fallback-default");
+  });
+
+  it("falls back to EXPENSE default for a whitespace-only merchant string", () => {
+    const result = classify({ merchant: "   " });
+    expect(result.bucket).toBe(Bucket.EXPENSE);
+    expect(result.confidence).toBe(0.3);
+    expect(result.matchedRule).toBe("fallback-default");
+  });
+
   it("confidence is 0.95 for merchant matches, 0.75 for category matches, 0.3 for fallback", () => {
     const merchantMatch = classify({ merchant: "Spotify" });
     const categoryMatch = classify({ merchant: "Unknown", category: "groceries" });

@@ -47,7 +47,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { useRef } from 'react';
+import { useMemo } from 'react';
 
 import type { FireInputs, FireResult } from '@/lib/calculations/fire';
 
@@ -304,14 +304,19 @@ function hashInputs(inputs: FireInputs): number {
 }
 
 export function FireNarrative({ result, inputs }: FireNarrativeProps) {
-  // Track the last shown key to prevent the same sentence twice in a row.
-  const lastKeyRef = useRef<string | undefined>(undefined);
-  const narrative = pickNarrative({
-    result,
-    inputs,
-    lastShownKey: lastKeyRef.current,
-  });
-  lastKeyRef.current = narrative.key;
+  // pickNarrative is deterministic on (result, inputs), so memoizing it
+  // keeps the narrative stable across re-renders until the scenario
+  // actually changes. The lastShownKey "avoid repeats" logic was
+  // removed when migrating off refs (React 19 forbids mutating refs
+  // during render, and tracking it in state risks a re-render loop).
+  // In practice the hash-based rotation means distinct scenarios pick
+  // distinct framings — the only way to see the same framing twice in
+  // a row is to hash-collide, which happens infrequently enough to not
+  // matter and is strictly better than the old 7-bucket behavior.
+  const narrative = useMemo(
+    () => pickNarrative({ result, inputs }),
+    [result, inputs],
+  );
 
   return (
     <AnimatePresence mode="wait">

@@ -1,11 +1,11 @@
 /**
- * app/page.tsx — Public landing page (Phase D)
+ * app/page.tsx — Public landing page (Phase D/E)
  *
  * Anyone visiting compound.app/ lands here on a dark, premium,
- * interactive FIRE calculator. Four sliders move the retirement age in
+ * interactive FIRE calculator. Four sliders move the freedom date in
  * real time; an asset curve animates; a narrative sentence swaps based
- * on earlier/later than the population average. The whole thing is the
- * "game" that pulls visitors in before the sign-in ask.
+ * on earlier/later than the default American path. The whole thing is
+ * the "game" that pulls visitors in before the sign-in ask.
  *
  * This route lives OUTSIDE the (app) route group so it is NOT wrapped in
  * <AuthGate>. Logged-in users see the same layout with an auth-aware
@@ -40,7 +40,7 @@ export default function LandingPage() {
             transition={{ duration: 0.5 }}
             className="text-3xl font-bold tracking-tight text-[#FAFAFA] sm:text-4xl lg:text-5xl"
           >
-            Your retirement date isn&apos;t fate. It&apos;s a slider.
+            The day work becomes optional.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 8 }}
@@ -48,7 +48,7 @@ export default function LandingPage() {
             transition={{ delay: 0.15, duration: 0.5 }}
             className="mx-auto mt-4 max-w-xl text-sm text-[#A3A3A3] sm:text-base"
           >
-            Move the inputs. Watch your retirement age move.
+            Move the inputs. Watch your freedom date move.
           </motion.p>
         </div>
 

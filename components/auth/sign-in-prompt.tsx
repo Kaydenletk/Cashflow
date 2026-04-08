@@ -24,7 +24,7 @@ export function SignInPrompt() {
         <GoogleSignInButton />
         <p className="text-xs text-[#A3A3A3]/70 leading-relaxed">
           Your data stays private. Upload a bank statement to see your
-          ratios, asset curve, and retirement projection.
+          ratios, asset curve, and your freedom date.
         </p>
       </div>
     </main>

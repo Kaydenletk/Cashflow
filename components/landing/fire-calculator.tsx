@@ -1,8 +1,8 @@
 /**
  * components/landing/fire-calculator.tsx
  *
- * Stateful container that owns the scenario and composes all four Task 4
- * display components. Upstream props are none — this is a self-contained
+ * Stateful container that owns the scenario and composes all four display
+ * components. Upstream props are none — this is a self-contained
  * interactive demo.
  *
  * Update flow per slider drag:
@@ -92,7 +92,7 @@ export function FireCalculator() {
         >
           <div>
             <div className="text-xs uppercase tracking-wide text-[#A3A3A3]">
-              You retire at
+              Work becomes optional at
             </div>
             <div className="mt-3">
               <FreedomAge age={result.freedomAge} />
@@ -104,10 +104,10 @@ export function FireCalculator() {
         <div className={`${CARD_CLASS} lg:col-span-8`}>
           <div className="mb-2 flex items-baseline justify-between">
             <span className="text-xs uppercase tracking-wide text-[#A3A3A3]">
-              Net worth over time
+              Your trajectory
             </span>
             <span className="text-xs text-[#525252]">
-              Target: ${(result.target / 1_000_000).toFixed(1)}M
+              Your number: ${(result.target / 1_000_000).toFixed(1)}M
             </span>
           </div>
           <AssetCurveChart

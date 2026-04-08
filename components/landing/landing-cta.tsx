@@ -47,8 +47,8 @@ export function LandingCta() {
               <span className="text-[#10B981]">YOUR</span> real numbers?
             </h3>
             <p className="text-sm text-[#A3A3A3]">
-              Upload a bank statement. We&apos;ll map every dollar to your
-              retirement date.
+              Upload a bank statement. We&apos;ll map every dollar to the day
+              your work becomes optional.
             </p>
           </div>
           <GoogleSignInButton />

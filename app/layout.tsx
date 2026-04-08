@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "compound",
-  description: "Financial time machine — see how today's habits shape your retirement date.",
+  description: "Financial time machine — see when your work becomes optional.",
 };
 
 export default function RootLayout({

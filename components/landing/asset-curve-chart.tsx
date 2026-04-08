@@ -75,7 +75,7 @@ function ChartTooltip({
       <div className="font-medium text-[#FAFAFA]">Age {point.age}</div>
       <div className="text-[#A3A3A3]">{formatCompactDollar(point.netWorth)}</div>
       {isFireRow && (
-        <div className="mt-1 text-[#10B981]">you hit FIRE here</div>
+        <div className="mt-1 text-[#10B981]">your freedom point</div>
       )}
     </div>
   );

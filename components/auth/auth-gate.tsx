@@ -19,7 +19,7 @@
 import type { ReactNode } from 'react';
 
 import { useAuth } from '@/lib/hooks/use-auth';
-import { GoogleSignInButton } from '@/components/auth/google-sign-in-button';
+import { SignInPrompt } from '@/components/auth/sign-in-prompt';
 
 interface AuthGateProps {
   children: ReactNode;
@@ -44,24 +44,4 @@ export function AuthGate({ children }: AuthGateProps) {
   }
 
   return <>{children}</>;
-}
-
-function SignInPrompt() {
-  return (
-    <main className="min-h-screen bg-[#0A0A0A] text-[#FAFAFA] flex items-center justify-center p-8">
-      <div className="max-w-sm w-full text-center space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-semibold tracking-tight">compound</h1>
-          <p className="text-sm text-[#A3A3A3]">
-            Financial time machine for your money.
-          </p>
-        </div>
-        <GoogleSignInButton />
-        <p className="text-xs text-[#525252]">
-          Sign in to upload statements and see how today&apos;s habits shape
-          your retirement date.
-        </p>
-      </div>
-    </main>
-  );
 }

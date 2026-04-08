@@ -26,17 +26,20 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   setDoc,
   serverTimestamp,
+  where,
   writeBatch,
   type Unsubscribe,
 } from 'firebase/firestore';
 
 import { db } from '@/lib/firebase/client';
-import type { PendingReviewItem } from '@/lib/types/review';
+import { ClassifiedBy, type Bucket } from '@/lib/types/transaction';
+import type { PendingReviewItem, UserMerchantRule } from '@/lib/types/review';
 
 // ─── Writes ──────────────────────────────────────────────────────────────────
 
@@ -115,6 +118,117 @@ export async function deletePendingReview(
   await deleteDoc(
     doc(db, 'users', userId, 'pending_reviews', merchantKey),
   );
+}
+
+/**
+ * Describes a single HITL decision the user made in the category picker
+ * modal: the merchant they're categorizing, the bucket they chose, and
+ * whether they want to save a rule so future imports auto-classify it.
+ */
+export interface ResolveDecision {
+  merchantKey: string;
+  /** First-seen raw merchant text, used for subjectMerchantRaw on the rule. */
+  merchantRaw: string;
+  bucket: Bucket;
+  subcategory?: string;
+  /** If true, persist a UserMerchantRule for future imports. */
+  saveAsRule: boolean;
+  /**
+   * The substring pattern the rule should match. Usually a truncated,
+   * lowercased version of merchantRaw (e.g. the first word or two).
+   * Ignored when saveAsRule === false.
+   */
+  rulePattern?: string;
+}
+
+/**
+ * Resolve a batch of HITL review decisions atomically.
+ *
+ * For each decision:
+ *   1. Query all transactions with matching `pendingReviewKey`
+ *   2. Batch-update them: set bucket, needsReview=false,
+ *      classifiedBy=USER_RULE, subcategory, clear pendingReviewKey
+ *   3. Delete the matching `pending_reviews/{merchantKey}` doc
+ *   4. Optionally create a `merchant_rules/*` doc (if saveAsRule)
+ *
+ * Firestore writeBatch allows up to 500 ops per batch. A typical review
+ * session has a handful of decisions affecting at most a few dozen rows,
+ * so one batch is plenty. If the set ever grows beyond 500 we'll chunk.
+ */
+export async function resolvePendingReviewsBatch(
+  userId: string,
+  decisions: ResolveDecision[],
+): Promise<{ transactionsUpdated: number; rulesCreated: number }> {
+  if (decisions.length === 0) {
+    return { transactionsUpdated: 0, rulesCreated: 0 };
+  }
+
+  // 1. Gather all affected transactions, one query per decision.
+  const txnCol = collection(db, 'users', userId, 'transactions');
+  const affectedPerDecision = await Promise.all(
+    decisions.map(async (d) => {
+      const q = query(txnCol, where('pendingReviewKey', '==', d.merchantKey));
+      const snap = await getDocs(q);
+      return { decision: d, txnIds: snap.docs.map((doc) => doc.id) };
+    }),
+  );
+
+  // 2. Assemble a single writeBatch.
+  const batch = writeBatch(db);
+  let transactionsUpdated = 0;
+  let rulesCreated = 0;
+
+  for (const { decision, txnIds } of affectedPerDecision) {
+    // Update each affected transaction.
+    for (const id of txnIds) {
+      const ref = doc(db, 'users', userId, 'transactions', id);
+      batch.update(ref, {
+        bucket: decision.bucket,
+        classifiedBy: ClassifiedBy.USER_RULE,
+        needsReview: false,
+        ...(decision.subcategory
+          ? { subcategory: decision.subcategory }
+          : {}),
+        userOverridden: true,
+        confidence: 0.95,
+      });
+      transactionsUpdated++;
+    }
+
+    // Delete the pending_reviews doc.
+    const reviewRef = doc(
+      db,
+      'users',
+      userId,
+      'pending_reviews',
+      decision.merchantKey,
+    );
+    batch.delete(reviewRef);
+
+    // Optionally write a new user rule.
+    if (decision.saveAsRule && decision.rulePattern) {
+      const rulePayload: Omit<UserMerchantRule, 'createdAt'> & {
+        createdAt: ReturnType<typeof serverTimestamp>;
+      } = {
+        pattern: decision.rulePattern.toLowerCase(),
+        bucket: decision.bucket,
+        ...(decision.subcategory
+          ? { subcategory: decision.subcategory }
+          : {}),
+        fromReview: true,
+        sourceMerchantRaw: decision.merchantRaw,
+        createdAt: serverTimestamp(),
+      };
+      const ruleRef = doc(
+        collection(db, 'users', userId, 'merchant_rules'),
+      );
+      batch.set(ruleRef, rulePayload);
+      rulesCreated++;
+    }
+  }
+
+  await batch.commit();
+  return { transactionsUpdated, rulesCreated };
 }
 
 // ─── Subscriptions ───────────────────────────────────────────────────────────

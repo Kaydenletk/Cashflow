@@ -15,30 +15,36 @@ import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 
+// Read each NEXT_PUBLIC_FIREBASE_* as a LITERAL property access so Next's
+// bundler inlines the values into the client bundle at build time. Dynamic
+// access (e.g. process.env[key] inside a loop) does NOT get inlined and
+// produces `undefined` in the browser even when the value is set in .env.local.
+// See: https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables#bundling-environment-variables-for-the-browser
+const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+const authDomain = process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN;
+const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
+const messagingSenderId = process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID;
+const appId = process.env.NEXT_PUBLIC_FIREBASE_APP_ID;
+
 // Fail fast on missing config. Firebase does NOT validate config at init time —
 // a missing apiKey/projectId silently produces a broken app that only fails
 // at first read/write with a cryptic network error. Surface the problem here.
-const REQUIRED_ENV_VARS = [
-  'NEXT_PUBLIC_FIREBASE_API_KEY',
-  'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
-] as const;
-
-for (const key of REQUIRED_ENV_VARS) {
-  if (!process.env[key]) {
-    throw new Error(
-      `[firebase/client] Missing required env var: ${key}. ` +
-        `Copy .env.example → .env.local and fill in your Firebase web config.`,
-    );
-  }
+if (!apiKey || !projectId) {
+  throw new Error(
+    `[firebase/client] Missing required env var: ` +
+      `${!apiKey ? 'NEXT_PUBLIC_FIREBASE_API_KEY' : 'NEXT_PUBLIC_FIREBASE_PROJECT_ID'}. ` +
+      `Copy .env.example → .env.local and fill in your Firebase web config, then restart the dev server.`,
+  );
 }
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
 };
 
 const app: FirebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);

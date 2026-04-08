@@ -1,32 +1,64 @@
 /**
- * app/page.tsx — Public landing page (stub)
+ * app/page.tsx — Public landing page (Phase D)
  *
- * Phase D Task 1: this stub proves the route compiles alongside the moved
- * `/dashboard` route and removes the old duplicate-route hazard of
- * app/(app)/page.tsx. The real interactive FIRE calculator lands in
- * Tasks 2–6.
+ * Anyone visiting compound.app/ lands here on a dark, premium,
+ * interactive FIRE calculator. Four sliders move the retirement age in
+ * real time; an asset curve animates; a narrative sentence swaps based
+ * on earlier/later than the population average. The whole thing is the
+ * "game" that pulls visitors in before the sign-in ask.
  *
- * This route is intentionally OUTSIDE the (app) route group so it is NOT
- * wrapped in <AuthGate>. Logged-in users will eventually see the same
- * page with an auth-aware header CTA; auto-redirecting to /dashboard
- * would take the "game" away from returning visitors.
+ * This route lives OUTSIDE the (app) route group so it is NOT wrapped in
+ * <AuthGate>. Logged-in users see the same layout with an auth-aware
+ * header and CTA — no auto-redirect so the game stays replayable.
+ *
+ * Authed dashboard placeholder lives at /dashboard (moved in Task 1).
+ * Real dashboard UI arrives in Phase H.
+ *
+ * `use client` because motion.h1/motion.p run here and the composed
+ * children all use client-only hooks (useAuth, useState, framer-motion).
  */
+
+'use client';
+
+import { motion } from 'framer-motion';
+
+import { FireCalculator } from '@/components/landing/fire-calculator';
+import { LandingCta } from '@/components/landing/landing-cta';
+import { LandingHeader } from '@/components/landing/landing-header';
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-[#FAFAFA] flex items-center justify-center p-8">
-      <div className="max-w-sm text-center space-y-4">
-        <h1 className="text-4xl font-semibold tracking-tight">compound</h1>
-        <p className="text-sm text-[#A3A3A3]">
-          Public landing dashboard arrives in Phase D tasks 2–6.
-        </p>
-        <p className="text-xs text-[#525252]">
-          Signed in already? Visit{' '}
-          <a href="/dashboard" className="text-[#10B981] hover:underline">
-            /dashboard
-          </a>
-          .
-        </p>
+    <main className="min-h-screen bg-[#0A0A0A] text-[#FAFAFA]">
+      <LandingHeader />
+
+      <div className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
+        {/* Hero headline */}
+        <div className="pt-6 pb-10 text-center lg:pt-12 lg:pb-14">
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl font-bold tracking-tight text-[#FAFAFA] sm:text-4xl lg:text-5xl"
+          >
+            Your retirement date isn&apos;t fate. It&apos;s a slider.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.5 }}
+            className="mx-auto mt-4 max-w-xl text-sm text-[#A3A3A3] sm:text-base"
+          >
+            Move the inputs. Watch your retirement age move.
+          </motion.p>
+        </div>
+
+        {/* Interactive calculator */}
+        <FireCalculator />
+
+        {/* Bottom conversion card */}
+        <div className="mt-10">
+          <LandingCta />
+        </div>
       </div>
     </main>
   );

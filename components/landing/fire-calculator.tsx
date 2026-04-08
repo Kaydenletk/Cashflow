@@ -98,7 +98,7 @@ export function FireCalculator() {
               <FreedomAge age={result.freedomAge} />
             </div>
           </div>
-          <FireNarrative result={result} />
+          <FireNarrative result={result} inputs={inputs} />
         </motion.div>
 
         <div className={`${CARD_CLASS} lg:col-span-8`}>

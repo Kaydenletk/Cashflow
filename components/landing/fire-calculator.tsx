@@ -29,6 +29,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AssetCurveChart } from '@/components/landing/asset-curve-chart';
 import { FireNarrative } from '@/components/landing/fire-narrative';
 import { FreedomAge } from '@/components/landing/freedom-age';
+import { SaveScenarioButton } from '@/components/landing/save-scenario-button';
+import { ScenariosDrawer } from '@/components/landing/scenarios-drawer';
+import { ShareScenarioButton } from '@/components/landing/share-scenario-button';
 import { SliderInput } from '@/components/landing/slider-input';
 import { track } from '@/lib/analytics/track';
 import {
@@ -174,8 +177,43 @@ export function FireCalculator() {
   const result = useMemo(() => computeFire(inputs), [inputs]);
   const curveData = useMemo(() => projectCurve(inputs), [inputs]);
 
+  // Scenarios drawer state. refreshKey bumps after every save/delete/fork
+  // so the drawer re-reads localStorage without needing a storage event
+  // listener.
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleLoadScenario = (loaded: Scenario) => {
+    setScenario(loaded);
+  };
+
+  const handleSaved = () => {
+    setRefreshKey((k) => k + 1);
+  };
+
+  const freedomAgeSnapshot = Number.isFinite(result.freedomAge)
+    ? result.freedomAge
+    : -1;
+
   return (
     <div className="flex flex-col gap-6">
+      {/* Actions bar: save + share + open drawer */}
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        <SaveScenarioButton
+          scenario={scenario}
+          freedomAge={freedomAgeSnapshot}
+          onSaved={handleSaved}
+        />
+        <ShareScenarioButton />
+        <button
+          type="button"
+          onClick={() => setDrawerOpen(true)}
+          className="inline-flex h-8 items-center rounded-full border border-[#262626] bg-[#141414] px-3 text-xs font-medium text-[#A3A3A3] transition-colors hover:bg-[#1a1a1a] hover:text-[#FAFAFA]"
+        >
+          Your scenarios
+        </button>
+      </div>
+
       {/* Top row: big number + chart side by side on desktop */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         <motion.div
@@ -263,6 +301,14 @@ export function FireCalculator() {
           />
         </div>
       </motion.div>
+
+      {/* Scenarios drawer (portal-style overlay; does not affect layout) */}
+      <ScenariosDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onLoad={handleLoadScenario}
+        refreshKey={refreshKey}
+      />
     </div>
   );
 }

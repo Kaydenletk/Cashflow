@@ -10,6 +10,8 @@
 
 'use client';
 
+import Link from 'next/link';
+
 import { useAuth } from '@/lib/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 
@@ -27,11 +29,19 @@ export default function DashboardPage() {
           <p className="text-[#A3A3A3]">Welcome back, {displayName}.</p>
         </div>
         <p className="text-sm text-[#525252]">
-          Phase C — upload flow arrives in Task 8. Bento dashboard in Phase H.
+          Phase C in progress. The bento dashboard arrives in Phase H.
         </p>
-        <Button variant="outline" size="sm" onClick={() => signOut()}>
-          Sign out
-        </Button>
+        <div className="flex justify-center gap-2">
+          <Link
+            href="/upload"
+            className="inline-flex h-8 items-center rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80"
+          >
+            Upload a statement
+          </Link>
+          <Button variant="outline" size="sm" onClick={() => signOut()}>
+            Sign out
+          </Button>
+        </div>
       </div>
     </main>
   );

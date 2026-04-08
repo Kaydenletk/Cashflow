@@ -9,13 +9,13 @@
  *   5. Zero return rate → linear fallback
  *   6. Unreachable scenario → Infinity
  *   7. projectCurve is monotonic for positive r + positive pmt
- *   8. projectCurve starts at currentAge and ends at or past retirementAge
+ *   8. projectCurve starts at currentAge and ends at or past freedomAge
  */
 
 import { describe, it, expect } from 'vitest';
 
 import {
-  AVERAGE_RETIREMENT_AGE,
+  AVERAGE_FREEDOM_AGE,
   computeFire,
   fireTarget,
   projectCurve,
@@ -52,10 +52,10 @@ describe('yearsToFire', () => {
     // Closed-form check: pv=50k, pmt=18k/yr, target=1M, r=0.07
     //   t = ln((1M·0.07 + 18k) / (50k·0.07 + 18k)) / ln(1.07)
     //     = ln(88k/21.5k) / ln(1.07) ≈ 20.83
-    // retirementAge = 30 + 20.83 ≈ 50.83
+    // freedomAge = 30 + 20.83 ≈ 50.83
     const result = computeFire(canonical);
-    expect(result.retirementAge).toBeGreaterThanOrEqual(50);
-    expect(result.retirementAge).toBeLessThanOrEqual(52);
+    expect(result.freedomAge).toBeGreaterThanOrEqual(50);
+    expect(result.freedomAge).toBeLessThanOrEqual(52);
   });
 
   it('zero contribution with positive pv + positive return is still finite', () => {
@@ -100,12 +100,12 @@ describe('yearsToFire', () => {
 });
 
 describe('computeFire derived fields', () => {
-  it('computes yearsVsAverage relative to AVERAGE_RETIREMENT_AGE', () => {
+  it('computes yearsVsAverage relative to AVERAGE_FREEDOM_AGE', () => {
     const result = computeFire(canonical);
-    // retirementAge ≈ 50.83, average = 65 → ~14.17 years earlier
+    // freedomAge ≈ 50.83, average = 65 → ~14.17 years earlier
     expect(result.yearsVsAverage).toBeGreaterThan(13);
     expect(result.yearsVsAverage).toBeLessThan(15);
-    expect(AVERAGE_RETIREMENT_AGE).toBe(65);
+    expect(AVERAGE_FREEDOM_AGE).toBe(65);
   });
 
   it('flags alreadyFire when net worth meets the target', () => {
@@ -115,16 +115,16 @@ describe('computeFire derived fields', () => {
     });
     expect(result.alreadyFire).toBe(true);
     expect(result.yearsToFire).toBe(0);
-    expect(result.retirementAge).toBe(30);
+    expect(result.freedomAge).toBe(30);
   });
 
-  it('returns Infinity retirementAge for unreachable scenarios', () => {
+  it('returns Infinity freedomAge for unreachable scenarios', () => {
     const result = computeFire({
       ...canonical,
       currentNetWorth: 0,
       monthlyContribution: 0,
     });
-    expect(result.retirementAge).toBe(Infinity);
+    expect(result.freedomAge).toBe(Infinity);
     expect(result.yearsVsAverage).toBe(-Infinity);
   });
 });
@@ -140,11 +140,11 @@ describe('projectCurve', () => {
     }
   });
 
-  it('extends at least to retirementAge for reachable scenarios', () => {
+  it('extends at least to freedomAge for reachable scenarios', () => {
     const result = computeFire(canonical);
     const points = projectCurve(canonical);
     const lastAge = points[points.length - 1].age;
-    expect(lastAge).toBeGreaterThanOrEqual(Math.floor(result.retirementAge));
+    expect(lastAge).toBeGreaterThanOrEqual(Math.floor(result.freedomAge));
   });
 
   it('clamps to currentAge + 60 ceiling for unreachable scenarios', () => {

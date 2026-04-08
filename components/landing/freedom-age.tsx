@@ -1,8 +1,8 @@
 /**
- * components/landing/fire-retirement-age.tsx
+ * components/landing/freedom-age.tsx
  *
  * Big number readout for the FIRE calculator. Springs smoothly between
- * slider-driven retirement ages instead of jumping instantly — this is
+ * slider-driven freedom ages instead of jumping instantly — this is
  * what sells the "game" feel of the landing page.
  *
  * Uses Framer Motion's useSpring + useTransform so the DOM only receives
@@ -18,11 +18,11 @@
 import { motion, useSpring, useTransform } from 'framer-motion';
 import { useEffect } from 'react';
 
-interface FireRetirementAgeProps {
+interface FreedomAgeProps {
   age: number;
 }
 
-export function FireRetirementAge({ age }: FireRetirementAgeProps) {
+export function FreedomAge({ age }: FreedomAgeProps) {
   // Start at 0 so the very first render appears to "count up" to the
   // default scenario (~51) on page load.
   const spring = useSpring(0, { stiffness: 120, damping: 20 });

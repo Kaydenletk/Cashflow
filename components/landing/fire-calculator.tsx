@@ -10,7 +10,7 @@
  *   2. React 18 batches the update in one render
  *   3. useMemo(computeFire) recomputes (< 1ms)
  *   4. useMemo(projectCurve) regenerates chart data (~30-60 iterations)
- *   5. FireRetirementAge spring tweens to new value
+ *   5. FreedomAge spring tweens to new value
  *   6. AssetCurveChart re-renders with Recharts 300ms animation
  *   7. FireNarrative fades to new copy via AnimatePresence
  *
@@ -27,7 +27,7 @@ import { useMemo, useState } from 'react';
 
 import { AssetCurveChart } from '@/components/landing/asset-curve-chart';
 import { FireNarrative } from '@/components/landing/fire-narrative';
-import { FireRetirementAge } from '@/components/landing/fire-retirement-age';
+import { FreedomAge } from '@/components/landing/freedom-age';
 import { SliderInput } from '@/components/landing/slider-input';
 import {
   DEFAULT_ANNUAL_SPEND,
@@ -95,7 +95,7 @@ export function FireCalculator() {
               You retire at
             </div>
             <div className="mt-3">
-              <FireRetirementAge age={result.retirementAge} />
+              <FreedomAge age={result.freedomAge} />
             </div>
           </div>
           <FireNarrative result={result} />
@@ -112,7 +112,7 @@ export function FireCalculator() {
           </div>
           <AssetCurveChart
             data={curveData}
-            retirementAge={result.retirementAge}
+            freedomAge={result.freedomAge}
           />
         </div>
       </div>

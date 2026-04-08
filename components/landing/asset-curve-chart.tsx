@@ -8,7 +8,7 @@
  * Visual spec matches Compound's dark design system:
  *   - Emerald stroke + gradient fill (matches everything else on brand)
  *   - Subtle neutral axes (stroke #525252) with no axis lines
- *   - Dashed vertical reference line at the retirement age (if finite),
+ *   - Dashed vertical reference line at the freedom age (if finite),
  *     labeled "FIRE" so the user knows where the magic happens
  *   - Mount animation via Framer Motion so the whole chart eases in
  *     instead of popping on first paint
@@ -34,7 +34,7 @@ import type { CurvePoint } from '@/lib/calculations/fire';
 
 interface AssetCurveChartProps {
   data: CurvePoint[];
-  retirementAge: number;
+  freedomAge: number;
   height?: number;
 }
 
@@ -57,18 +57,18 @@ interface TooltipPayload {
 function ChartTooltip({
   active,
   payload,
-  retirementAge,
+  freedomAge,
 }: {
   active?: boolean;
   payload?: TooltipPayload[];
-  retirementAge: number;
+  freedomAge: number;
 }) {
   if (!active || !payload || payload.length === 0) return null;
 
   const point = payload[0].payload;
   const isFireRow =
-    Number.isFinite(retirementAge) &&
-    Math.abs(point.age - Math.round(retirementAge)) <= 0.5;
+    Number.isFinite(freedomAge) &&
+    Math.abs(point.age - Math.round(freedomAge)) <= 0.5;
 
   return (
     <div className="rounded-lg border border-[#262626] bg-[#0A0A0A]/95 px-3 py-2 text-xs shadow-xl backdrop-blur">
@@ -83,14 +83,14 @@ function ChartTooltip({
 
 export function AssetCurveChart({
   data,
-  retirementAge,
+  freedomAge,
   height = 260,
 }: AssetCurveChartProps) {
   const showReferenceLine =
-    Number.isFinite(retirementAge) &&
+    Number.isFinite(freedomAge) &&
     data.length > 0 &&
-    retirementAge >= data[0].age &&
-    retirementAge <= data[data.length - 1].age;
+    freedomAge >= data[0].age &&
+    freedomAge <= data[data.length - 1].age;
 
   return (
     <motion.div
@@ -123,12 +123,12 @@ export function AssetCurveChart({
             width={56}
           />
           <Tooltip
-            content={<ChartTooltip retirementAge={retirementAge} />}
+            content={<ChartTooltip freedomAge={freedomAge} />}
             cursor={{ stroke: '#262626', strokeWidth: 1 }}
           />
           {showReferenceLine && (
             <ReferenceLine
-              x={Math.round(retirementAge)}
+              x={Math.round(freedomAge)}
               stroke="#10B981"
               strokeDasharray="4 4"
               label={{

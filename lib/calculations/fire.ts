@@ -5,12 +5,12 @@
  * landing calculator. No React, no Firestore — just
  *   (FireInputs) => FireResult + CurvePoint[]
  *
- * The headline insight powering the landing page is that "retirement age"
- * is a closed-form function of current age, current net worth, monthly
- * contribution, return rate, and annual spending. Given a slider-driven
- * UI, we want this math to:
+ * The headline insight powering the landing page is that "freedom age"
+ * (the age at which work becomes optional) is a closed-form function of
+ * current age, current net worth, monthly contribution, return rate, and
+ * annual spending. Given a slider-driven UI, we want this math to:
  *
- *   - Run in << 1ms per frame (no loops proportional to years-to-retire)
+ *   - Run in << 1ms per frame (no loops proportional to years-to-freedom)
  *   - Return finite or Infinity cleanly (never NaN, never throw)
  *   - Match the "25× annual spending" FIRE convention
  *   - Degrade gracefully on edge cases (zero return, already FIRE,
@@ -35,8 +35,14 @@
 /** Default annual real return (S&P 500 historical after inflation). */
 export const DEFAULT_RETURN_RATE = 0.07;
 
-/** Population benchmark for "earlier/later than average" narrative. */
-export const AVERAGE_RETIREMENT_AGE = 65;
+/**
+ * Population benchmark for the "earlier/later than the default American path"
+ * narrative. 65 is the age at which most Americans stop working for a paycheck
+ * (a loose composite of Social Security full retirement age + labor force
+ * participation data). We do not call this "retirement" in user-facing copy —
+ * that word is contaminated for the 29-33yo target cohort per Phase E research.
+ */
+export const AVERAGE_FREEDOM_AGE = 65;
 
 /** Default annual spending used to derive the 25× FIRE target ($1M). */
 export const DEFAULT_ANNUAL_SPEND = 40_000;
@@ -48,7 +54,7 @@ export interface FireInputs {
   currentNetWorth: number;
   /** Monthly savings contribution in dollars. Must be >= 0. */
   monthlyContribution: number;
-  /** Annual spending the retiree wants to support. Drives the 25× target. */
+  /** Annual spending the freedom seeker wants to support. Drives the 25× target. */
   annualSpend: number;
   /** Annual real return rate as a decimal (e.g. 0.07 for 7%). */
   returnRate: number;
@@ -59,11 +65,11 @@ export interface FireResult {
   target: number;
   /** Years from currentAge until net worth reaches `target`. 0 if already FIRE, Infinity if unreachable. */
   yearsToFire: number;
-  /** currentAge + yearsToFire, or Infinity if unreachable. */
-  retirementAge: number;
+  /** currentAge + yearsToFire, or Infinity if unreachable. The age at which work becomes optional. */
+  freedomAge: number;
   /** True when current net worth already meets or exceeds the target. */
   alreadyFire: boolean;
-  /** Positive = retire earlier than AVERAGE_RETIREMENT_AGE. Negative = later. */
+  /** Positive = freedom earlier than AVERAGE_FREEDOM_AGE. Negative = later. */
   yearsVsAverage: number;
 }
 
@@ -132,23 +138,23 @@ export function yearsToFire(inputs: FireInputs): number {
 
 /**
  * Thin wrapper that packages yearsToFire into a FireResult with
- * derived fields (retirementAge, alreadyFire, yearsVsAverage).
+ * derived fields (freedomAge, alreadyFire, yearsVsAverage).
  */
 export function computeFire(inputs: FireInputs): FireResult {
   const target = fireTarget(inputs.annualSpend);
   const years = yearsToFire(inputs);
   const alreadyFire = inputs.currentNetWorth >= target && target > 0;
-  const retirementAge = Number.isFinite(years)
+  const freedomAge = Number.isFinite(years)
     ? inputs.currentAge + years
     : Infinity;
-  const yearsVsAverage = Number.isFinite(retirementAge)
-    ? AVERAGE_RETIREMENT_AGE - retirementAge
+  const yearsVsAverage = Number.isFinite(freedomAge)
+    ? AVERAGE_FREEDOM_AGE - freedomAge
     : -Infinity;
 
   return {
     target,
     yearsToFire: years,
-    retirementAge,
+    freedomAge,
     alreadyFire,
     yearsVsAverage,
   };
@@ -170,9 +176,9 @@ interface ProjectCurveOptions {
  * Horizon selection:
  *   1. Honor explicit untilAge if given.
  *   2. Otherwise use min(currentAge + horizonYears, currentAge + 60).
- *   3. Otherwise aim for min(currentAge + 40, retirementAge + 5). The
+ *   3. Otherwise aim for min(currentAge + 40, freedomAge + 5). The
  *      "+5" tail makes the chart feel like life continues past FIRE.
- *   4. Unreachable scenarios (retirementAge = Infinity) clamp to
+ *   4. Unreachable scenarios (freedomAge = Infinity) clamp to
  *      currentAge + 60 so the chart always has a bounded x-axis.
  */
 export function projectCurve(
@@ -192,9 +198,9 @@ export function projectCurve(
     endAge = Math.min(currentAge + options.horizonYears, ceiling);
   } else {
     const result = computeFire(inputs);
-    if (Number.isFinite(result.retirementAge)) {
+    if (Number.isFinite(result.freedomAge)) {
       endAge = Math.min(
-        Math.max(currentAge + 40, result.retirementAge + 5),
+        Math.max(currentAge + 40, result.freedomAge + 5),
         ceiling,
       );
     } else {

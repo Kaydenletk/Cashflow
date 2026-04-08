@@ -23,12 +23,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { AssetCurveChart } from '@/components/landing/asset-curve-chart';
 import { FireNarrative } from '@/components/landing/fire-narrative';
 import { FreedomAge } from '@/components/landing/freedom-age';
 import { SliderInput } from '@/components/landing/slider-input';
+import { track } from '@/lib/analytics/track';
 import {
   DEFAULT_ANNUAL_SPEND,
   computeFire,
@@ -40,6 +42,10 @@ import {
   SCENARIO_BOUNDS,
   type Scenario,
 } from '@/lib/scenarios/types';
+import {
+  scenarioFromParams,
+  toSearchParams,
+} from '@/lib/scenarios/url-state';
 
 function formatDollars(value: number): string {
   return `$${value.toLocaleString('en-US')}`;
@@ -57,7 +63,59 @@ const CARD_CLASS =
   'rounded-2xl border border-[#262626] bg-[#0F0F0F] p-6 shadow-lg shadow-black/20';
 
 export function FireCalculator() {
-  const [scenario, setScenario] = useState<Scenario>(DEFAULT_SCENARIO);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // ─── Initial state from URL (lazy initializer) ───────────────────────
+  // useState's lazy initializer runs exactly once on mount, synchronously
+  // with the first render. This avoids the react-hooks/set-state-in-effect
+  // lint rule AND the feedback loop risk: the scenario is born already
+  // hydrated from whatever the URL contained, so the sync-to-URL effect
+  // below won't fire on first render with stale defaults.
+  const [scenario, setScenario] = useState<Scenario>(() => {
+    const { scenario: hydrated } = scenarioFromParams(
+      searchParams,
+      DEFAULT_SCENARIO,
+    );
+    return hydrated;
+  });
+
+  // ─── Sync scenario → URL on every change ─────────────────────────────
+  // router.replace (not push) keeps slider drags out of the back-button
+  // history. The URL update runs in an effect after render so it never
+  // blocks the slider's visual response.
+  useEffect(() => {
+    const params = toSearchParams(scenario);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [scenario, pathname, router]);
+
+  // ─── Analytics: debounced scenario_changed event ────────────────────
+  // Fires 2s after the last slider drag so we capture the "user stopped
+  // exploring" moment, not every frame.
+  const analyticsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (analyticsTimerRef.current !== null) {
+      clearTimeout(analyticsTimerRef.current);
+    }
+    analyticsTimerRef.current = setTimeout(() => {
+      const result = computeFire({
+        ...scenario,
+        annualSpend: scenario.annualSpend ?? DEFAULT_ANNUAL_SPEND,
+      });
+      track('landing_scenario_changed', {
+        freedomAge: Number.isFinite(result.freedomAge)
+          ? Math.round(result.freedomAge)
+          : -1,
+        currentAge: scenario.currentAge,
+      });
+    }, 2000);
+    return () => {
+      if (analyticsTimerRef.current !== null) {
+        clearTimeout(analyticsTimerRef.current);
+      }
+    };
+  }, [scenario]);
 
   const inputs: FireInputs = useMemo(
     () => ({

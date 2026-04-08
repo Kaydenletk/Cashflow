@@ -21,6 +21,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Suspense } from 'react';
 
 import { FireCalculator } from '@/components/landing/fire-calculator';
 import { LandingCta } from '@/components/landing/landing-cta';
@@ -52,8 +53,18 @@ export default function LandingPage() {
           </motion.p>
         </div>
 
-        {/* Interactive calculator */}
-        <FireCalculator />
+        {/* Interactive calculator — Suspense boundary because
+            FireCalculator uses useSearchParams() which Next 16
+            requires to live inside Suspense for static rendering
+            compat. Fallback is a same-height placeholder to avoid
+            layout shift. */}
+        <Suspense
+          fallback={
+            <div className="h-[560px] animate-pulse rounded-2xl border border-[#262626] bg-[#0F0F0F]" />
+          }
+        >
+          <FireCalculator />
+        </Suspense>
 
         {/* Bottom conversion card */}
         <div className="mt-10">

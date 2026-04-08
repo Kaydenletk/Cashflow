@@ -31,25 +31,15 @@ import { FreedomAge } from '@/components/landing/freedom-age';
 import { SliderInput } from '@/components/landing/slider-input';
 import {
   DEFAULT_ANNUAL_SPEND,
-  DEFAULT_RETURN_RATE,
   computeFire,
   projectCurve,
   type FireInputs,
 } from '@/lib/calculations/fire';
-
-interface Scenario {
-  currentAge: number;
-  currentNetWorth: number;
-  monthlyContribution: number;
-  returnRate: number;
-}
-
-const DEFAULT_SCENARIO: Scenario = {
-  currentAge: 30,
-  currentNetWorth: 50_000,
-  monthlyContribution: 1_500,
-  returnRate: DEFAULT_RETURN_RATE,
-};
+import {
+  DEFAULT_SCENARIO,
+  SCENARIO_BOUNDS,
+  type Scenario,
+} from '@/lib/scenarios/types';
 
 function formatDollars(value: number): string {
   return `$${value.toLocaleString('en-US')}`;
@@ -71,8 +61,11 @@ export function FireCalculator() {
 
   const inputs: FireInputs = useMemo(
     () => ({
-      ...scenario,
-      annualSpend: DEFAULT_ANNUAL_SPEND,
+      currentAge: scenario.currentAge,
+      currentNetWorth: scenario.currentNetWorth,
+      monthlyContribution: scenario.monthlyContribution,
+      returnRate: scenario.returnRate,
+      annualSpend: scenario.annualSpend ?? DEFAULT_ANNUAL_SPEND,
     }),
     [scenario],
   );
@@ -132,8 +125,8 @@ export function FireCalculator() {
             label="Current age"
             value={scenario.currentAge}
             onChange={(next) => setScenario((s) => ({ ...s, currentAge: next }))}
-            min={18}
-            max={65}
+            min={SCENARIO_BOUNDS.currentAge.min}
+            max={SCENARIO_BOUNDS.currentAge.max}
             format={formatAge}
           />
           <SliderInput
@@ -142,8 +135,8 @@ export function FireCalculator() {
             onChange={(next) =>
               setScenario((s) => ({ ...s, currentNetWorth: next }))
             }
-            min={0}
-            max={1_000_000}
+            min={SCENARIO_BOUNDS.currentNetWorth.min}
+            max={SCENARIO_BOUNDS.currentNetWorth.max}
             step={1_000}
             format={formatDollars}
           />
@@ -153,8 +146,8 @@ export function FireCalculator() {
             onChange={(next) =>
               setScenario((s) => ({ ...s, monthlyContribution: next }))
             }
-            min={0}
-            max={5_000}
+            min={SCENARIO_BOUNDS.monthlyContribution.min}
+            max={SCENARIO_BOUNDS.monthlyContribution.max}
             step={50}
             format={formatDollars}
           />
@@ -162,9 +155,9 @@ export function FireCalculator() {
             label="Annual return"
             value={scenario.returnRate}
             onChange={(next) => setScenario((s) => ({ ...s, returnRate: next }))}
-            min={0}
-            max={0.12}
-            step={0.005}
+            min={SCENARIO_BOUNDS.returnRate.min}
+            max={SCENARIO_BOUNDS.returnRate.max}
+            step={0.01}
             format={formatPercent}
           />
         </div>

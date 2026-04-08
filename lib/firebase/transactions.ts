@@ -18,17 +18,21 @@ import {
   addDoc,
   collection,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
   updateDoc,
+  where,
+  writeBatch,
   type Unsubscribe,
 } from 'firebase/firestore';
 import { z } from 'zod';
 
 import { db } from '@/lib/firebase/client';
 import { classify } from '@/lib/classification/classifier';
+import type { ClassifiedTransaction } from '@/lib/classification/pipeline';
 import {
   Bucket,
   ClassifiedBy,
@@ -117,6 +121,96 @@ export async function addTransaction(
     date: Timestamp.fromDate(parsed.date),
   });
   return ref.id;
+}
+
+/**
+ * Query which of the provided dedupe hashes already exist in Firestore for
+ * this user. Returns a Set of hashes that are present (i.e. duplicates).
+ *
+ * Firestore's `in` operator is capped at 10 values per query, so we chunk
+ * the input into groups of 10 and run them in parallel. For a typical
+ * 40-row statement that's 4 concurrent reads — negligible.
+ */
+export async function findExistingDedupeHashes(
+  userId: string,
+  hashes: string[],
+): Promise<Set<string>> {
+  if (hashes.length === 0) return new Set();
+
+  const existing = new Set<string>();
+  const chunks: string[][] = [];
+  for (let i = 0; i < hashes.length; i += 10) {
+    chunks.push(hashes.slice(i, i + 10));
+  }
+
+  const col = collection(db, 'users', userId, 'transactions');
+  await Promise.all(
+    chunks.map(async (chunk) => {
+      const q = query(col, where('dedupeHash', 'in', chunk));
+      const snap = await getDocs(q);
+      snap.forEach((d) => {
+        const h = d.data().dedupeHash as string | undefined;
+        if (h) existing.add(h);
+      });
+    }),
+  );
+  return existing;
+}
+
+/**
+ * Batch-write classified transactions from a PDF import. Dedupes against
+ * existing hashes first, then writes survivors via writeBatch in chunks of
+ * 500 (Firestore's per-batch write limit).
+ *
+ * Returns the number of new transactions written and the number of
+ * duplicates skipped, so the upload UI can show "Imported N transactions
+ * (M duplicates skipped)" in its success toast.
+ */
+export async function addTransactionsBatch(
+  userId: string,
+  classified: ClassifiedTransaction[],
+): Promise<{ written: number; skipped: number }> {
+  if (classified.length === 0) return { written: 0, skipped: 0 };
+
+  const hashes = classified.map((t) => t.dedupeHash);
+  const existing = await findExistingDedupeHashes(userId, hashes);
+
+  const survivors = classified.filter((t) => !existing.has(t.dedupeHash));
+  if (survivors.length === 0) {
+    return { written: 0, skipped: classified.length };
+  }
+
+  const col = collection(db, 'users', userId, 'transactions');
+
+  // Firestore writeBatch allows up to 500 operations per batch.
+  const BATCH_SIZE = 500;
+  for (let i = 0; i < survivors.length; i += BATCH_SIZE) {
+    const batch = writeBatch(db);
+    for (const tx of survivors.slice(i, i + BATCH_SIZE)) {
+      const ref = doc(col);
+      const payload: Record<string, unknown> = {
+        amount: tx.amount,
+        merchant: tx.merchant,
+        bucket: tx.bucket,
+        classifiedBy: tx.classifiedBy,
+        confidence: tx.confidence,
+        userOverridden: false,
+        date: Timestamp.fromDate(tx.date),
+        createdAt: serverTimestamp(),
+        dedupeHash: tx.dedupeHash,
+        sourceFile: tx.sourceFile,
+        sourceBank: tx.sourceBank,
+        needsReview: tx.needsReview,
+      };
+      if (tx.matchedRule) payload.matchedRule = tx.matchedRule;
+      if (tx.subcategory) payload.subcategory = tx.subcategory;
+      if (tx.pendingReviewKey) payload.pendingReviewKey = tx.pendingReviewKey;
+      batch.set(ref, payload);
+    }
+    await batch.commit();
+  }
+
+  return { written: survivors.length, skipped: classified.length - survivors.length };
 }
 
 /**

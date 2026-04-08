@@ -52,3 +52,7 @@ next-env.d.ts
 # real bank statements used for parser fixture generation (PII — never commit)
 seeds/*.pdf
 
+# local-only dev artifacts
+sign-in-page*.png
+scripts/extract-boa-fixtures.ts
+

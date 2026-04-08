@@ -30,9 +30,11 @@ import { AssetCurveChart } from '@/components/landing/asset-curve-chart';
 import { FireNarrative } from '@/components/landing/fire-narrative';
 import { FreedomAge } from '@/components/landing/freedom-age';
 import { SaveScenarioButton } from '@/components/landing/save-scenario-button';
+import { ScenarioTemplates } from '@/components/landing/scenario-templates';
 import { ScenariosDrawer } from '@/components/landing/scenarios-drawer';
 import { ShareScenarioButton } from '@/components/landing/share-scenario-button';
 import { SliderInput } from '@/components/landing/slider-input';
+import { TemplateDetail } from '@/components/landing/template-detail';
 import { track } from '@/lib/analytics/track';
 import {
   DEFAULT_ANNUAL_SPEND,
@@ -41,6 +43,7 @@ import {
   type FireInputs,
 } from '@/lib/calculations/fire';
 import { listScenarios, saveScenario } from '@/lib/scenarios/storage';
+import type { Template } from '@/lib/scenarios/templates';
 import {
   DEFAULT_SCENARIO,
   SCENARIO_BOUNDS,
@@ -183,6 +186,9 @@ export function FireCalculator() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  // Active life event template (null = no detail overlay visible).
+  const [activeTemplate, setActiveTemplate] = useState<Template | null>(null);
+
   const handleLoadScenario = (loaded: Scenario) => {
     setScenario(loaded);
   };
@@ -302,12 +308,23 @@ export function FireCalculator() {
         </div>
       </motion.div>
 
+      {/* Life event template cards */}
+      <ScenarioTemplates onOpen={setActiveTemplate} />
+
       {/* Scenarios drawer (portal-style overlay; does not affect layout) */}
       <ScenariosDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         onLoad={handleLoadScenario}
         refreshKey={refreshKey}
+      />
+
+      {/* Template detail overlay (portal-style) */}
+      <TemplateDetail
+        template={activeTemplate}
+        baseline={scenario}
+        onClose={() => setActiveTemplate(null)}
+        onSaved={handleSaved}
       />
     </div>
   );

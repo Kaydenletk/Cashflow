@@ -36,7 +36,7 @@ export default function ReviewPage() {
               next time.
             </p>
           </div>
-          <Button variant="ghost" size="sm" onClick={() => router.push('/')}>
+          <Button variant="ghost" size="sm" onClick={() => router.push('/dashboard')}>
             Back
           </Button>
         </div>
@@ -63,7 +63,7 @@ export default function ReviewPage() {
               <Button variant="outline" onClick={() => router.push('/upload')}>
                 Upload a statement
               </Button>
-              <Button onClick={() => router.push('/')}>
+              <Button onClick={() => router.push('/dashboard')}>
                 Back to dashboard
               </Button>
             </div>

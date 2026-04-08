@@ -3,9 +3,9 @@
  *
  * Public sign-in page. Reuses <SignInPrompt> so branding + copy stay in
  * one place. Watches useAuth — once the user is authenticated, this page
- * redirects to the dashboard (`/`). Without this, a successful Google
- * sign-in would leave the user staring at the sign-in screen because
- * this route is outside the (app) route group and has no <AuthGate>.
+ * redirects to /dashboard. Without this, a successful Google sign-in
+ * would leave the user staring at the sign-in screen because this route
+ * is outside the (app) route group and has no <AuthGate>.
  */
 
 'use client';
@@ -22,7 +22,7 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      router.replace('/');
+      router.replace('/dashboard');
     }
   }, [user, loading, router]);
 

@@ -1,10 +1,12 @@
 /**
- * app/(app)/page.tsx — Compound dashboard (placeholder)
+ * app/(app)/dashboard/page.tsx — Compound dashboard (placeholder)
  *
  * Auth-gated by app/(app)/layout.tsx → AuthGate. Unauthenticated visitors
  * never see this page — they get the sign-in prompt instead.
  *
  * Phase C: placeholder that proves auth + route group boot correctly.
+ * Phase D: public interactive landing moved to `/` (app/page.tsx); this
+ *          dashboard is now reachable at `/dashboard` only after sign-in.
  * Phase H: replaced by the full bento dashboard (7 cells, ratios, curve).
  */
 

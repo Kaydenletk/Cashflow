@@ -12,7 +12,7 @@
  *   5. On commit:
  *      a. addTransactionsBatch(userId, classified) — dedupes + writes
  *      b. upsertPendingReviewsBatch(userId, reviewItems) — seeds the HITL queue
- *      c. Success toast + redirect to dashboard (/)
+ *      c. Success toast + redirect to dashboard (/dashboard)
  *
  * All Firestore writes happen client-side behind the auth-gated rules.
  * No firebase-admin on the server.
@@ -204,7 +204,7 @@ export default function UploadPage() {
               account.
             </p>
           </div>
-          <Button variant="ghost" size="sm" onClick={() => router.push('/')}>
+          <Button variant="ghost" size="sm" onClick={() => router.push('/dashboard')}>
             Back
           </Button>
         </div>
@@ -270,7 +270,7 @@ export default function UploadPage() {
               <Button variant="outline" onClick={() => setPhase({ kind: 'idle' })}>
                 Upload another
               </Button>
-              <Button onClick={() => router.push('/')}>
+              <Button onClick={() => router.push('/dashboard')}>
                 Go to dashboard
               </Button>
             </div>

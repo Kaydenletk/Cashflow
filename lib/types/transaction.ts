@@ -33,6 +33,10 @@ export const ClassifiedBy = {
   CATEGORY: 'CATEGORY',
   AI: 'AI',
   USER: 'USER',
+  /** Matched a per-user merchant rule saved from an HITL review decision. */
+  USER_RULE: 'USER_RULE',
+  /** Parked — awaiting user categorization in the review queue. */
+  NEEDS_REVIEW: 'NEEDS_REVIEW',
 } as const;
 export type ClassifiedBy = (typeof ClassifiedBy)[keyof typeof ClassifiedBy];
 
@@ -139,6 +143,20 @@ export interface TransactionDoc {
   sourceBank?: SourceBank;
   /** Content-hash of (date + amount + merchant) for idempotent re-imports. */
   dedupeHash?: string;
+  /**
+   * True when the transaction is parked waiting for the user to categorize
+   * its merchant via the HITL review modal. While true, `bucket` is a
+   * placeholder (EXPENSE) and the dashboard should filter the row out.
+   * Once the user decides, this is set to false, bucket is updated, and
+   * classifiedBy flips to USER_RULE.
+   */
+  needsReview?: boolean;
+  /**
+   * Links the transaction to its `PendingReviewItem` doc in
+   * `users/{uid}/pending_reviews/{merchantKey}`. Cleared (via deleteField)
+   * once the review is resolved.
+   */
+  pendingReviewKey?: string;
 }
 
 export interface InsightDoc {

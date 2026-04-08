@@ -29,31 +29,28 @@ interface UsePendingReviewsState {
   error: Error | null;
 }
 
+const SIGNED_OUT: UsePendingReviewsState = { reviews: [], loading: false, error: null };
+const LOADING: UsePendingReviewsState = { reviews: [], loading: true, error: null };
+
 export function usePendingReviews(): UsePendingReviewsState {
   const { user, loading: authLoading } = useAuth();
-  const [state, setState] = useState<UsePendingReviewsState>({
-    reviews: [],
-    loading: true,
-    error: null,
-  });
+  // See useUserRules for the rationale behind this derivation pattern —
+  // keeps the effect from calling setState for the signed-out reset.
+  const [subscriptionState, setSubscriptionState] =
+    useState<UsePendingReviewsState>(LOADING);
 
   useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-
-    if (!user) {
-      setState({ reviews: [], loading: false, error: null });
-      return;
-    }
+    if (!user) return;
 
     const unsub = subscribeToPendingReviews(
       user.uid,
-      (reviews) => setState({ reviews, loading: false, error: null }),
-      (err) => setState((s) => ({ ...s, loading: false, error: err })),
+      (reviews) => setSubscriptionState({ reviews, loading: false, error: null }),
+      (err) => setSubscriptionState((s) => ({ ...s, loading: false, error: err })),
     );
     return unsub;
-  }, [user, authLoading]);
+  }, [user]);
 
-  return state;
+  if (authLoading) return LOADING;
+  if (!user) return SIGNED_OUT;
+  return subscriptionState;
 }

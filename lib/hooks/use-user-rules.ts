@@ -28,31 +28,28 @@ interface UseUserRulesState {
   error: Error | null;
 }
 
+const SIGNED_OUT: UseUserRulesState = { rules: [], loading: false, error: null };
+const LOADING: UseUserRulesState = { rules: [], loading: true, error: null };
+
 export function useUserRules(): UseUserRulesState {
   const { user, loading: authLoading } = useAuth();
-  const [state, setState] = useState<UseUserRulesState>({
-    rules: [],
-    loading: true,
-    error: null,
-  });
+  // Only holds the *authenticated* subscription result. The signed-out
+  // and loading states are derived below so the effect never needs to
+  // call setState to reset them (avoids react-hooks/set-state-in-effect).
+  const [subscriptionState, setSubscriptionState] = useState<UseUserRulesState>(LOADING);
 
   useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-
-    if (!user) {
-      setState({ rules: [], loading: false, error: null });
-      return;
-    }
+    if (!user) return;
 
     const unsub = subscribeToUserRules(
       user.uid,
-      (rules) => setState({ rules, loading: false, error: null }),
-      (err) => setState((s) => ({ ...s, loading: false, error: err })),
+      (rules) => setSubscriptionState({ rules, loading: false, error: null }),
+      (err) => setSubscriptionState((s) => ({ ...s, loading: false, error: err })),
     );
     return unsub;
-  }, [user, authLoading]);
+  }, [user]);
 
-  return state;
+  if (authLoading) return LOADING;
+  if (!user) return SIGNED_OUT;
+  return subscriptionState;
 }

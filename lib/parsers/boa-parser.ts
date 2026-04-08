@@ -397,7 +397,7 @@ export const boaParser: BankParser = {
     const checksums: ParsedStatement['checksums'] = {};
     let pending: PendingRow | null = null;
 
-    function flushPending(amount: number, lineIdx: number) {
+    function flushPending(amount: number, _lineIdx: number) {
       if (!pending) return;
       const section = sectionFromState(state);
       if (!section) {

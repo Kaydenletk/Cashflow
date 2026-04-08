@@ -27,37 +27,33 @@ interface UseTransactionsState {
   error: Error | null;
 }
 
+const SIGNED_OUT: UseTransactionsState = { transactions: [], loading: false, error: null };
+const LOADING: UseTransactionsState = { transactions: [], loading: true, error: null };
+
 export function useTransactions(): UseTransactionsState {
   const { user, loading: authLoading } = useAuth();
-  const [state, setState] = useState<UseTransactionsState>({
-    transactions: [],
-    loading: true,
-    error: null,
-  });
+  // Only holds the authenticated subscription result. Signed-out and
+  // loading states are derived below so the effect never calls setState
+  // synchronously (avoids react-hooks/set-state-in-effect).
+  const [subscriptionState, setSubscriptionState] =
+    useState<UseTransactionsState>(LOADING);
 
   useEffect(() => {
-    if (authLoading) {
-      // Still resolving auth; keep loading: true.
-      return;
-    }
-
-    if (!user) {
-      // Signed out — no subscription, empty result.
-      setState({ transactions: [], loading: false, error: null });
-      return;
-    }
+    if (!user) return;
 
     const now = new Date();
     const unsub = subscribeToTransactions(
       user.uid,
       (all) => {
         const thisMonth = all.filter((t) => inSameMonth(t.date, now));
-        setState({ transactions: thisMonth, loading: false, error: null });
+        setSubscriptionState({ transactions: thisMonth, loading: false, error: null });
       },
-      (err) => setState((s) => ({ ...s, loading: false, error: err })),
+      (err) => setSubscriptionState((s) => ({ ...s, loading: false, error: err })),
     );
     return unsub;
-  }, [user, authLoading]);
+  }, [user]);
 
-  return state;
+  if (authLoading) return LOADING;
+  if (!user) return SIGNED_OUT;
+  return subscriptionState;
 }

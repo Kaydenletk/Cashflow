@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+
+  // Don't bundle pdf-parse / pdfjs-dist into the server build. Turbopack
+  // struggles with the pdfjs-dist worker chunk (.next/dev/server/chunks/
+  // pdf.worker.mjs is never emitted), producing a "Setting up fake worker
+  // failed" error at runtime. Listing them as external packages makes Node
+  // resolve them from node_modules at request time, where the worker path
+  // is valid and the loader works normally.
+  serverExternalPackages: ['pdf-parse', 'pdfjs-dist'],
 };
 
 export default nextConfig;

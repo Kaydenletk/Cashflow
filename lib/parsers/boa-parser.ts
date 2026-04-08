@@ -65,7 +65,12 @@ import { SourceBank } from '@/lib/types/transaction';
 const PERIOD_REGEX =
   /for\s+([A-Z][a-z]+)\s+(\d{1,2}),\s+(\d{4})\s+to\s+([A-Z][a-z]+)\s+(\d{1,2}),\s+(\d{4})/;
 
-const ACCOUNT_REGEX = /Account\s*(?:number|#)[:]?\s*\*+\s*\*+\s*(\d{4})/i;
+// Match both raw and masked account number formats:
+//   - Raw:    "Account number: 8981 2263 6098"
+//   - Masked: "Account number: **** **** 6098" (from scrubbed fixtures)
+// Capture only the last 4 digits — we never store the full number.
+const ACCOUNT_REGEX =
+  /Account\s*(?:number|#)[:]?\s*(?:\*+\s*)*(?:\d{4}\s+)*(\d{4})\b/i;
 
 // Row line: "MM/DD/YY <...description...> <amount>"
 // Amount is optional in the regex so multi-line rows (where amount is on a

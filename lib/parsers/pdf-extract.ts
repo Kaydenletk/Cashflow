@@ -18,7 +18,39 @@
  * `export const runtime = 'nodejs'` (not Edge).
  */
 
+import path from 'node:path';
+
 import { PDFParse } from 'pdf-parse';
+
+/**
+ * Wire pdfjs-dist's worker source to the real file on disk.
+ *
+ * Without this, pdfjs-dist tries to auto-configure a "fake worker" and
+ * fails under Next.js Turbopack with
+ *     "No GlobalWorkerOptions.workerSrc specified"
+ * even though vanilla Node (vite-node, our extract script) works out of
+ * the box. Turbopack's loader shims module resolution just enough to
+ * break pdfjs's auto-wire.
+ *
+ * We set it lazily inside extractPdf() rather than at module load because
+ * Next's dev-mode HMR may reset the worker state between requests when
+ * hot-reloading modules. Calling setWorker() on every extract is cheap
+ * (it's a single property assignment inside pdfjs).
+ */
+let workerWired = false;
+function ensureWorkerWired() {
+  if (workerWired) return;
+  const workerPath = path.join(
+    process.cwd(),
+    'node_modules',
+    'pdfjs-dist',
+    'legacy',
+    'build',
+    'pdf.worker.mjs',
+  );
+  PDFParse.setWorker(workerPath);
+  workerWired = true;
+}
 
 export interface ExtractedPdf {
   /** Raw text as returned by pdf-parse, newlines preserved. */
@@ -40,6 +72,7 @@ export interface ExtractedPdf {
  * the pdfjs-dist worker memory, even on error paths.
  */
 export async function extractPdf(buffer: Buffer): Promise<ExtractedPdf> {
+  ensureWorkerWired();
   // PDFParse accepts Buffer and normalizes to Uint8Array internally.
   const parser = new PDFParse({ data: buffer });
   try {

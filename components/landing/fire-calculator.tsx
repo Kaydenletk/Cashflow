@@ -37,6 +37,7 @@ import {
   projectCurve,
   type FireInputs,
 } from '@/lib/calculations/fire';
+import { listScenarios, saveScenario } from '@/lib/scenarios/storage';
 import {
   DEFAULT_SCENARIO,
   SCENARIO_BOUNDS,
@@ -115,6 +116,48 @@ export function FireCalculator() {
         clearTimeout(analyticsTimerRef.current);
       }
     };
+  }, [scenario]);
+
+  // ─── Auto-save "Untitled 1" on first meaningful interaction ─────────
+  // IKEA effect hook: the moment a user drags any slider away from its
+  // initial value, we silently save their scenario to localStorage as
+  // "Untitled 1" so the drawer has at least one entry. This seeds the
+  // endowment effect — day-one users never see an empty drawer, and the
+  // first save carries zero friction. The user can rename or delete.
+  //
+  // Only fires once per session. Skipped if the user already has saved
+  // scenarios (returning visitor).
+  const autoSavedRef = useRef(false);
+  useEffect(() => {
+    if (autoSavedRef.current) return;
+
+    // Has the user already saved anything, ever?
+    if (listScenarios().length > 0) {
+      autoSavedRef.current = true;
+      return;
+    }
+
+    // Has the scenario diverged from DEFAULT_SCENARIO? If not, skip —
+    // the initial render fires this effect once but we don't want to
+    // save the untouched defaults.
+    const isDefault =
+      scenario.currentAge === DEFAULT_SCENARIO.currentAge &&
+      scenario.currentNetWorth === DEFAULT_SCENARIO.currentNetWorth &&
+      scenario.monthlyContribution === DEFAULT_SCENARIO.monthlyContribution &&
+      scenario.returnRate === DEFAULT_SCENARIO.returnRate;
+
+    if (isDefault) return;
+
+    autoSavedRef.current = true;
+    const result = computeFire({
+      ...scenario,
+      annualSpend: scenario.annualSpend ?? DEFAULT_ANNUAL_SPEND,
+    });
+    saveScenario(
+      scenario,
+      'Untitled 1',
+      Number.isFinite(result.freedomAge) ? result.freedomAge : -1,
+    );
   }, [scenario]);
 
   const inputs: FireInputs = useMemo(
